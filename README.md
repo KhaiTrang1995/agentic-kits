@@ -84,6 +84,10 @@ You can copy multiple kits into the same project. Watch for skill-name collision
 4. **Kits compose.** Where it makes sense, one kit references another instead of duplicating content — e.g. `docker-swarm-kit` points at `docker-kit`'s Dockerfile conventions rather than restating them.
 5. **Evidence-only on investigations.** Log and problem checks do not invent hit counts or metric values.
 
+## Contributing
+
+Want to improve a kit, add a skill, or fix docs? See **[CONTRIBUTING.md](./CONTRIBUTING.md)** for structure, checklists, and PR guidelines.
+
 ## GitHub Pages (Jekyll)
 
 This repo publishes a static docs site with **Jekyll** (GitHub Pages).
