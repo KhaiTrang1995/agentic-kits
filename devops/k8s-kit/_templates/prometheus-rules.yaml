@@ -1,0 +1,60 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{app_name}}-alerts
+  namespace: {{namespace}}
+  labels:
+    release: prometheus
+spec:
+  groups:
+    - name: {{app_name}}.rules
+      rules:
+        - alert: HighErrorRate
+          expr: |
+            sum(rate(http_requests_total{app="{{app_name}}", status=~"5.."}[5m]))
+            / sum(rate(http_requests_total{app="{{app_name}}"}[5m])) > 0.01
+          for: 5m
+          labels:
+            severity: critical
+          annotations:
+            summary: "{{app_name}} error rate > 1%"
+            description: "Error rate {{ $value | humanizePercentage }} over the last 5 minutes."
+
+        - alert: HighLatency
+          expr: |
+            histogram_quantile(0.99, sum(rate(http_request_duration_seconds_bucket{app="{{app_name}}"}[5m])) by (le)) > 1
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: "{{app_name}} p99 latency > 1s"
+            description: "p99 latency {{ $value }}s over the last 5 minutes."
+
+        - alert: PodCrashLoop
+          expr: |
+            increase(kube_pod_container_status_restarts_total{pod=~"{{app_name}}.*"}[10m]) > 3
+          labels:
+            severity: critical
+          annotations:
+            summary: "{{app_name}} pod crash loop"
+            description: "Pod {{ $labels.pod }} restarted more than 3 times in 10 minutes."
+
+        - alert: HighMemory
+          expr: |
+            container_memory_working_set_bytes{pod=~"{{app_name}}.*"}
+            / container_spec_memory_limit_bytes{pod=~"{{app_name}}.*"} > 0.9
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "{{app_name}} memory > 90% of limit"
+
+        - alert: HighCPU
+          expr: |
+            rate(container_cpu_usage_seconds_total{pod=~"{{app_name}}.*"}[5m])
+            / container_spec_cpu_quota{pod=~"{{app_name}}.*"} > 0.8
+          for: 10m
+          labels:
+            severity: warning
+          annotations:
+            summary: "{{app_name}} CPU > 80% of limit sustained for 10 minutes"

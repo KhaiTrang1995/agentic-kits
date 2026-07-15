@@ -1,0 +1,106 @@
+# Template: Full-stack Swarm stack file
+version: "3.8"
+
+services:
+  api:
+    image: {{registry}}/{{app_name}}-api:{{version}}
+    secrets:
+      - db_password
+    environment:
+      - DB_PASSWORD_FILE=/run/secrets/db_password
+      - ASPNETCORE_ENVIRONMENT=Production
+    networks:
+      - backend
+    deploy:
+      replicas: {{replicas}}
+      placement:
+        constraints:
+          - node.role == worker
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+      update_config:
+        parallelism: 1
+        delay: 10s
+        order: start-first
+        failure_action: rollback
+        monitor: 30s
+      rollback_config:
+        parallelism: 1
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 60s
+
+  web:
+    image: {{registry}}/{{app_name}}-web:{{version}}
+    networks:
+      - frontend
+    ports:
+      - target: 80
+        published: 8080
+        mode: ingress
+    deploy:
+      replicas: 2
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+      update_config:
+        parallelism: 1
+        delay: 5s
+        order: start-first
+      rollback_config:
+        parallelism: 1
+        order: stop-first
+      restart_policy:
+        condition: on-failure
+
+  db:
+    image: postgres:16-alpine
+    secrets:
+      - db_password
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db_password
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    networks:
+      - backend
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.tier == data
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2G
+        reservations:
+          cpus: "0.5"
+          memory: 1G
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 5
+
+networks:
+  frontend:
+    driver: overlay
+  backend:
+    driver: overlay
+
+volumes:
+  db-data:
+
+secrets:
+  db_password:
+    external: true   # create out-of-band: docker secret create db_password ./db_password.txt

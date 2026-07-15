@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevOps kits — agentic-kits</title>
+<meta name="description" content="DevOps AI skill kits: Docker, Swarm, Kubernetes, Zabbix, ELK, Grafana. Examples use .NET 10.">
+<meta name="theme-color" content="#0c0f14">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --bg-elevated: #fffcf7;
+    --surface: #ece8df;
+    --surface-2: #e2ddd2;
+    --text: #12151a;
+    --text-muted: #5c6470;
+    --line: rgba(18, 21, 26, 0.1);
+    --line-strong: rgba(18, 21, 26, 0.16);
+    --accent: #0d6e6e;
+    --accent-hover: #0a5757;
+    --accent-soft: rgba(13, 110, 110, 0.1);
+    --accent-ink: #f4fffe;
+    --warm: #c45c26;
+    --warm-soft: rgba(196, 92, 38, 0.12);
+    --good: #2f6b3a;
+    --good-bg: rgba(47, 107, 58, 0.12);
+    --info: #2a4f8f;
+    --info-bg: rgba(42, 79, 143, 0.1);
+    --shadow-sm: 0 1px 2px rgba(18, 21, 26, 0.05);
+    --shadow-md: 0 8px 24px -12px rgba(18, 21, 26, 0.18);
+    --radius-s: 6px;
+    --radius-m: 12px;
+    --radius-l: 18px;
+    --font: "Instrument Sans", system-ui, -apple-system, sans-serif;
+    --mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+    --max: 72rem;
+    --nav-h: 4rem;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0c0f14; --bg-elevated: #12161d; --surface: #171c24; --surface-2: #1e2530;
+      --text: #e8ecf1; --text-muted: #93a0b0;
+      --line: rgba(232, 236, 241, 0.09); --line-strong: rgba(232, 236, 241, 0.14);
+      --accent: #3dbdb5; --accent-hover: #5dcec7; --accent-soft: rgba(61, 189, 181, 0.12); --accent-ink: #061413;
+      --warm: #e8955c; --warm-soft: rgba(232, 149, 92, 0.14);
+      --good: #6dba7a; --good-bg: rgba(109, 186, 122, 0.14);
+      --info: #7aa2e8; --info-bg: rgba(122, 162, 232, 0.12);
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.35); --shadow-md: 0 8px 24px -12px rgba(0,0,0,0.55);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0c0f14; --bg-elevated: #12161d; --surface: #171c24; --surface-2: #1e2530;
+    --text: #e8ecf1; --text-muted: #93a0b0;
+    --line: rgba(232, 236, 241, 0.09); --line-strong: rgba(232, 236, 241, 0.14);
+    --accent: #3dbdb5; --accent-hover: #5dcec7; --accent-soft: rgba(61, 189, 181, 0.12); --accent-ink: #061413;
+    --warm: #e8955c; --warm-soft: rgba(232, 149, 92, 0.14);
+    --good: #6dba7a; --good-bg: rgba(109, 186, 122, 0.14);
+    --info: #7aa2e8; --info-bg: rgba(122, 162, 232, 0.12);
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.35); --shadow-md: 0 8px 24px -12px rgba(0,0,0,0.55);
+  }
+  :root[data-theme="light"] {
+    --bg: #f6f4ef; --bg-elevated: #fffcf7; --surface: #ece8df; --surface-2: #e2ddd2;
+    --text: #12151a; --text-muted: #5c6470;
+    --line: rgba(18, 21, 26, 0.1); --line-strong: rgba(18, 21, 26, 0.16);
+    --accent: #0d6e6e; --accent-hover: #0a5757; --accent-soft: rgba(13, 110, 110, 0.1); --accent-ink: #f4fffe;
+    --warm: #c45c26; --warm-soft: rgba(196, 92, 38, 0.12);
+    --good: #2f6b3a; --good-bg: rgba(47, 107, 58, 0.12);
+    --info: #2a4f8f; --info-bg: rgba(42, 79, 143, 0.1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { scroll-behavior: smooth; color-scheme: light dark; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: var(--font); line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 12% -10%, color-mix(in srgb, var(--accent) 14%, transparent), transparent 55%),
+      radial-gradient(ellipse 55% 40% at 95% 0%, color-mix(in srgb, var(--warm) 10%, transparent), transparent 50%);
+  }
+  h1, h2, h3 { margin: 0; text-wrap: balance; letter-spacing: -0.02em; }
+  p { margin: 0; }
+  a { color: inherit; }
+  code, .mono { font-family: var(--mono); font-size: 0.9em; }
+  ::selection { background: var(--accent); color: var(--accent-ink); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+  .wrap { width: min(100% - 2.5rem, var(--max)); margin-inline: auto; position: relative; z-index: 1; }
+  @media (max-width: 640px) { .wrap { width: min(100% - 1.5rem, var(--max)); } }
+
+  .topbar {
+    position: sticky; top: 0; z-index: 50; height: var(--nav-h);
+    border-bottom: 1px solid var(--line);
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  }
+  .topbar-inner { height: 100%; display: flex; align-items: center; gap: 1rem; }
+  .brand {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-family: var(--mono); font-weight: 600; font-size: 0.95rem; text-decoration: none;
+  }
+  .brand .slash { color: var(--accent); }
+  .crumb {
+    display: flex; align-items: center; gap: 0.45rem;
+    font-size: 0.85rem; color: var(--text-muted);
+  }
+  .crumb a { text-decoration: none; color: var(--text-muted); }
+  .crumb a:hover { color: var(--accent); }
+  .crumb .sep { opacity: 0.5; font-family: var(--mono); }
+  .crumb .here { color: var(--text); font-weight: 600; }
+  .topbar-actions { margin-left: auto; display: flex; align-items: center; gap: 0.55rem; }
+  .theme-toggle {
+    width: 2.25rem; height: 2.25rem; display: grid; place-items: center;
+    border: 1px solid var(--line); border-radius: var(--radius-s);
+    background: var(--bg-elevated); color: var(--text-muted); cursor: pointer;
+  }
+  .theme-toggle:hover { color: var(--text); border-color: var(--accent); background: var(--accent-soft); }
+  .theme-toggle svg { width: 1.05rem; height: 1.05rem; }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+    font-family: var(--font); font-size: 0.82rem; font-weight: 600;
+    padding: 0.45rem 0.8rem; border-radius: var(--radius-s); text-decoration: none;
+    border: 1px solid transparent; transition: 0.15s ease;
+  }
+  .btn-github {
+    background: var(--bg-elevated); border-color: var(--line-strong); color: var(--text);
+  }
+  .btn-github:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+  .btn-primary {
+    background: var(--accent); color: var(--accent-ink); border-color: transparent;
+  }
+  .btn-primary:hover { background: var(--accent-hover); }
+  .btn-secondary {
+    background: var(--bg-elevated); border-color: var(--line-strong); color: var(--text);
+  }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+  @media (max-width: 520px) {
+    .btn-github span { display: none; }
+    .btn-github { padding: 0.45rem 0.55rem; }
+  }
+
+  .hero { padding: clamp(2rem, 5vw, 3.25rem) 0 1.25rem; }
+  .eyebrow {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-family: var(--mono); font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.85rem;
+  }
+  .eyebrow::before {
+    content: ""; width: 0.45rem; height: 0.45rem; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+  .hero h1 { font-size: clamp(1.9rem, 4vw, 2.6rem); line-height: 1.12; font-weight: 700; max-width: 18ch; }
+  .hero .lead { margin-top: 0.9rem; color: var(--text-muted); max-width: 42rem; font-size: 1.02rem; }
+  .hero-note {
+    margin-top: 1.1rem; display: inline-flex; gap: 0.65rem; align-items: flex-start;
+    padding: 0.75rem 0.95rem; border-radius: var(--radius-m);
+    border: 1px solid color-mix(in srgb, var(--warm) 35%, var(--line));
+    background: var(--warm-soft); max-width: 40rem;
+  }
+  .hero-note .badge {
+    flex-shrink: 0; font-family: var(--mono); font-size: 0.68rem; font-weight: 600;
+    letter-spacing: 0.04em; text-transform: uppercase; color: var(--warm);
+    background: var(--bg-elevated); border: 1px solid color-mix(in srgb, var(--warm) 30%, transparent);
+    border-radius: 999px; padding: 0.28rem 0.55rem; margin-top: 0.1rem;
+  }
+  .hero-note strong { display: block; font-size: 0.82rem; margin-bottom: 0.15rem; }
+  .hero-note span { font-size: 0.82rem; color: var(--text-muted); line-height: 1.45; }
+  .hero-ctas { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.35rem; }
+  .hero-ctas .btn { padding: 0.68rem 1.1rem; font-size: 0.88rem; }
+
+  .stats {
+    border-block: 1px solid var(--line);
+    background: color-mix(in srgb, var(--surface) 70%, var(--bg));
+  }
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 760px) { .stats-row { grid-template-columns: 1fr 1fr; } }
+  .stat { padding: 1.2rem 1rem; border-right: 1px solid var(--line); }
+  .stat:last-child { border-right: none; }
+  @media (max-width: 760px) {
+    .stat:nth-child(2) { border-right: none; }
+    .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--line); }
+  }
+  .stat-num { font-size: 1.75rem; font-weight: 700; letter-spacing: -0.03em; }
+  .stat-label { margin-top: 0.2rem; font-size: 0.8rem; color: var(--text-muted); }
+
+  section { padding: clamp(2.5rem, 5vw, 3.75rem) 0; }
+  .sec-head { max-width: 40rem; margin-bottom: 1.5rem; }
+  .sec-head h2 { font-size: clamp(1.35rem, 2.5vw, 1.75rem); font-weight: 700; }
+  .sec-head p { margin-top: 0.55rem; color: var(--text-muted); font-size: 0.95rem; }
+
+  .kit-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  @media (max-width: 980px) { .kit-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) { .kit-grid { grid-template-columns: 1fr; } }
+
+  .kit-card {
+    display: flex; flex-direction: column; background: var(--bg-elevated);
+    border: 1px solid var(--line); border-radius: var(--radius-m); overflow: hidden;
+    box-shadow: var(--shadow-sm); text-decoration: none;
+    transition: border-color 0.18s, transform 0.18s, box-shadow 0.18s;
+  }
+  .kit-card:hover {
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+    transform: translateY(-3px); box-shadow: var(--shadow-md);
+  }
+  .kit-card-top {
+    display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+    padding: 0.85rem 1rem; background: var(--surface); border-bottom: 1px solid var(--line);
+  }
+  .kit-card-top .name { font-family: var(--mono); font-size: 0.82rem; font-weight: 600; }
+  .kit-body { padding: 1rem 1rem 1.15rem; display: flex; flex-direction: column; gap: 0.8rem; flex: 1; }
+  .kit-body h3 { font-size: 1.05rem; font-weight: 700; }
+  .kit-body p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .chip {
+    font-family: var(--mono); font-size: 0.7rem; font-weight: 500;
+    padding: 0.22rem 0.5rem; border-radius: var(--radius-s);
+    background: var(--surface); border: 1px solid var(--line);
+  }
+  .chip.accent {
+    background: var(--accent-soft);
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+    color: var(--accent);
+  }
+  .kit-meta {
+    margin-top: auto; padding-top: 0.75rem; border-top: 1px dashed var(--line);
+    font-size: 0.78rem; color: var(--text-muted); line-height: 1.45;
+  }
+  .kit-meta b { color: var(--text); font-weight: 600; }
+
+  .status-pill {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    font-family: var(--mono); font-size: 0.66rem; font-weight: 600;
+    letter-spacing: 0.03em; text-transform: uppercase;
+    padding: 0.2rem 0.5rem; border-radius: 999px;
+  }
+  .status-pill .dot { width: 0.35rem; height: 0.35rem; border-radius: 50%; background: currentColor; }
+  .status-pill.available { background: var(--good-bg); color: var(--good); }
+  .status-pill.info { background: var(--info-bg); color: var(--info); }
+
+  .flow {
+    margin-top: 1.25rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+  }
+  @media (max-width: 760px) { .flow { grid-template-columns: 1fr; } }
+  .flow-card {
+    background: var(--bg-elevated); border: 1px solid var(--line); border-radius: var(--radius-m);
+    padding: 1.15rem 1.2rem; box-shadow: var(--shadow-sm);
+  }
+  .flow-card h3 {
+    font-size: 0.95rem; font-weight: 700; margin-bottom: 0.75rem;
+    display: flex; align-items: center; gap: 0.45rem;
+  }
+  .flow-card h3 .tag {
+    font-family: var(--mono); font-size: 0.68rem; font-weight: 600;
+    color: var(--accent); background: var(--accent-soft); padding: 0.15rem 0.45rem; border-radius: 999px;
+  }
+  .flow-steps {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.4rem;
+    font-family: var(--mono); font-size: 0.78rem;
+  }
+  .flow-steps code {
+    padding: 0.28rem 0.5rem; border-radius: 5px; background: var(--surface);
+    border: 1px solid var(--line); font-size: 0.75rem;
+  }
+  .flow-steps .arr { color: var(--accent); }
+  .flow-card p { margin-top: 0.75rem; font-size: 0.84rem; color: var(--text-muted); line-height: 1.5; }
+
+  .table-wrap {
+    overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius-m);
+    background: var(--bg-elevated); box-shadow: var(--shadow-sm);
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  th, td { text-align: left; padding: 0.85rem 1rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th {
+    font-family: var(--mono); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--text-muted); background: var(--surface);
+  }
+  tr:last-child td { border-bottom: none; }
+  td a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  td a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+  .principles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  @media (max-width: 760px) { .principles { grid-template-columns: 1fr; } }
+  .principle {
+    padding: 1.2rem 1.15rem; border: 1px solid var(--line); border-radius: var(--radius-m);
+    background: var(--bg-elevated);
+  }
+  .principle .num { font-family: var(--mono); font-size: 0.72rem; font-weight: 600; color: var(--accent); margin-bottom: 0.5rem; }
+  .principle h3 { font-size: 0.98rem; font-weight: 700; margin-bottom: 0.4rem; }
+  .principle p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.55; }
+
+  .install {
+    border: 1px solid var(--line); border-radius: var(--radius-l); overflow: hidden;
+    background: var(--bg-elevated); box-shadow: var(--shadow-md);
+    display: grid; grid-template-columns: 1fr 1.05fr;
+  }
+  @media (max-width: 800px) { .install { grid-template-columns: 1fr; } }
+  .install-copy { padding: clamp(1.4rem, 3vw, 2.1rem); display: flex; flex-direction: column; gap: 0.8rem; justify-content: center; }
+  .install-copy h2 { font-size: 1.4rem; }
+  .install-copy p { color: var(--text-muted); font-size: 0.92rem; }
+  .install-code {
+    font-family: var(--mono); font-size: 0.78rem; line-height: 1.85;
+    background: var(--surface); padding: clamp(1.4rem, 3vw, 2rem);
+    border-left: 1px solid var(--line); overflow-x: auto;
+  }
+  @media (max-width: 800px) { .install-code { border-left: none; border-top: 1px solid var(--line); } }
+  .install-code .c { color: var(--text-muted); }
+  .install-code .k { color: var(--accent); font-weight: 600; }
+
+  .tree {
+    font-family: var(--mono); font-size: 0.8rem; line-height: 1.85;
+    background: var(--bg-elevated); border: 1px solid var(--line); border-radius: var(--radius-m);
+    padding: 1.15rem 1.25rem; box-shadow: var(--shadow-sm); overflow-x: auto;
+  }
+  .tree .d { color: var(--accent); font-weight: 500; }
+  .tree .f { color: var(--text-muted); }
+
+  footer {
+    border-top: 1px solid var(--line); padding: 2rem 0 2.5rem;
+    font-size: 0.82rem; color: var(--text-muted); position: relative; z-index: 1;
+  }
+  .foot-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .foot-links { display: flex; gap: 1.15rem; flex-wrap: wrap; }
+  .foot-links a { text-decoration: none; color: var(--text-muted); }
+  .foot-links a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a href="../index.html" class="brand"><span class="slash">/</span>agentic-kits</a>
+      <nav class="crumb" aria-label="Breadcrumb">
+        <a href="../index.html">home</a>
+        <span class="sep">/</span>
+        <span class="here">devops</span>
+      </nav>
+      <div class="topbar-actions">
+        <a class="btn btn-github" href="https://github.com/KhaiTrang1995/agentic-kits" target="_blank" rel="noopener noreferrer" aria-label="GitHub repository">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844a9.59 9.59 0 0 1 2.504.337c1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <span>GitHub</span>
+        </a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme" type="button">
+          <svg id="themeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section class="hero">
+        <div class="eyebrow">DevOps docs</div>
+        <h1>Container, cluster &amp; observability kits</h1>
+        <p class="lead">
+          Six standalone kits — copy the one you need. Run &amp; deploy first (Docker → Swarm → K8s), then observe with Zabbix, ELK, or Grafana/Loki.
+        </p>
+        <div class="hero-note" role="note">
+          <span class="badge">Note</span>
+          <div>
+            <strong>Examples use .NET 10</strong>
+            <span>Sample prompts and <span class="mono">Dockerfile.dotnet</span> target <b class="mono">.NET 10</b> Minimal API. Skills work for other stacks — specify the runtime in the prompt.</span>
+          </div>
+        </div>
+        <div class="hero-ctas">
+          <a href="#run" class="btn btn-primary">Run &amp; deploy</a>
+          <a href="#observe" class="btn btn-secondary">Observe</a>
+          <a href="#install" class="btn btn-secondary">Install</a>
+        </div>
+      </section>
+    </div>
+
+    <div class="stats">
+      <div class="wrap">
+        <div class="stats-row">
+          <div class="stat"><div class="stat-num">6</div><div class="stat-label">kits</div></div>
+          <div class="stat"><div class="stat-num">25</div><div class="stat-label">skills</div></div>
+          <div class="stat"><div class="stat-num">2</div><div class="stat-label">tracks · run + observe</div></div>
+          <div class="stat"><div class="stat-num">0</div><div class="stat-label">risky cmds agent runs</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <section id="run">
+        <div class="sec-head">
+          <div class="eyebrow">Track A</div>
+          <h2>Run &amp; deploy</h2>
+          <p>From a single container to a full cluster. Graduate only when Swarm’s missing primitives become a real constraint.</p>
+        </div>
+        <div class="kit-grid">
+          <a class="kit-card" href="./docker-kit/">
+            <div class="kit-card-top">
+              <span class="name">docker-kit</span>
+              <span class="status-pill available"><span class="dot"></span>available</span>
+            </div>
+            <div class="kit-body">
+              <h3>Docker</h3>
+              <p>Single-host containerization — Dockerfile, Compose, CI. No orchestrator.</p>
+              <div class="chips">
+                <span class="chip">/dockerfile</span>
+                <span class="chip">/compose</span>
+                <span class="chip">/ci</span>
+              </div>
+              <div class="kit-meta"><b>Example:</b> <span class="mono">/dockerfile .NET 10 Minimal API --prod</span></div>
+            </div>
+          </a>
+          <a class="kit-card" href="./docker-swarm-kit/">
+            <div class="kit-card-top">
+              <span class="name">docker-swarm-kit</span>
+              <span class="status-pill available"><span class="dot"></span>available</span>
+            </div>
+            <div class="kit-body">
+              <h3>Docker Swarm</h3>
+              <p>Multi-node stacks that stay in Compose syntax — <span class="mono">deploy:</span>, not a new API.</p>
+              <div class="chips">
+                <span class="chip">/stack</span>
+                <span class="chip">/service</span>
+                <span class="chip">/secret</span>
+              </div>
+              <div class="kit-meta"><b>Use when</b> multi-node without full K8s.</div>
+            </div>
+          </a>
+          <a class="kit-card" href="./k8s-kit/">
+            <div class="kit-card-top">
+              <span class="name">k8s-kit</span>
+              <span class="status-pill available"><span class="dot"></span>available</span>
+            </div>
+            <div class="kit-body">
+              <h3>Kubernetes</h3>
+              <p>Manifests, Helm charts, Prometheus rules — when Swarm primitives run out.</p>
+              <div class="chips">
+                <span class="chip">/deploy</span>
+                <span class="chip">/helm</span>
+                <span class="chip">/monitor</span>
+              </div>
+              <div class="kit-meta"><b>Example:</b> <span class="mono">/deploy container-api --namespace prod</span></div>
+            </div>
+          </a>
+        </div>
+        <div class="flow" style="margin-top:1.25rem;">
+          <div class="flow-card">
+            <h3>Migration path <span class="tag">run</span></h3>
+            <div class="flow-steps">
+              <code>docker-kit</code><span class="arr">→</span>
+              <code>docker-swarm-kit</code><span class="arr">→</span>
+              <code>k8s-kit</code>
+            </div>
+            <p>Start simple. Move to Swarm for multi-node Compose. Graduate to K8s for HPA, Ingress, RBAC, operators.</p>
+          </div>
+          <div class="flow-card">
+            <h3>Which container kit?</h3>
+            <p><b style="color:var(--text)">1 host</b> → docker-kit<br>
+            <b style="color:var(--text)">Multi-node, keep compose</b> → docker-swarm-kit<br>
+            <b style="color:var(--text)">Autoscaling / Ingress / RBAC</b> → k8s-kit</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="observe">
+        <div class="sec-head">
+          <div class="eyebrow">Track B</div>
+          <h2>Observe — metrics, logs, alerts</h2>
+          <p>Classic infra (Zabbix), full-text logs (ELK), dashboards + Loki (Grafana). Each kit ships a brain + check skills.</p>
+        </div>
+        <div class="kit-grid">
+          <a class="kit-card" href="./zabbix-kit/">
+            <div class="kit-card-top">
+              <span class="name">zabbix-kit</span>
+              <span class="status-pill info"><span class="dot"></span>observe</span>
+            </div>
+            <div class="kit-body">
+              <h3>Zabbix</h3>
+              <p>Hosts, templates, triggers, read-only problem investigation.</p>
+              <div class="chips">
+                <span class="chip">/zabbix</span>
+                <span class="chip accent">/zabbix-check</span>
+                <span class="chip">/zabbix-trigger</span>
+              </div>
+              <div class="kit-meta"><b>Brain:</b> <span class="mono">ZABBIX-BRAIN.md</span></div>
+            </div>
+          </a>
+          <a class="kit-card" href="./elk-kit/">
+            <div class="kit-card-top">
+              <span class="name">elk-kit</span>
+              <span class="status-pill info"><span class="dot"></span>observe</span>
+            </div>
+            <div class="kit-body">
+              <h3>ELK Stack</h3>
+              <p>Elasticsearch, Logstash, Kibana — first-class log investigation.</p>
+              <div class="chips">
+                <span class="chip accent">/log-check</span>
+                <span class="chip">/es-query</span>
+                <span class="chip">/logstash</span>
+              </div>
+              <div class="kit-meta"><b>Primary log skill</b> for KQL / full-text.</div>
+            </div>
+          </a>
+          <a class="kit-card" href="./grafana-kit/">
+            <div class="kit-card-top">
+              <span class="name">grafana-kit</span>
+              <span class="status-pill info"><span class="dot"></span>observe</span>
+            </div>
+            <div class="kit-body">
+              <h3>Grafana + Loki</h3>
+              <p>Dashboards, alerts, Explore, LogQL log checks.</p>
+              <div class="chips">
+                <span class="chip accent">/loki-query</span>
+                <span class="chip">/grafana-dashboard</span>
+                <span class="chip">/grafana-alert</span>
+              </div>
+              <div class="kit-meta"><b>Brain:</b> <span class="mono">GRAFANA-BRAIN.md</span></div>
+            </div>
+          </a>
+        </div>
+
+        <div class="sec-head" style="margin-top:2rem;margin-bottom:1rem;">
+          <h2 style="font-size:1.15rem;">Which log skill?</h2>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Need</th>
+                <th>Kit</th>
+                <th>Skill</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Full-text logs in Elasticsearch / Kibana</td>
+                <td><a href="./elk-kit/">elk-kit</a></td>
+                <td><code class="mono">/log-check</code></td>
+              </tr>
+              <tr>
+                <td>Logs in Loki (Grafana Explore)</td>
+                <td><a href="./grafana-kit/">grafana-kit</a></td>
+                <td><code class="mono">/loki-query</code></td>
+              </tr>
+              <tr>
+                <td>Zabbix problem / log item</td>
+                <td><a href="./zabbix-kit/">zabbix-kit</a></td>
+                <td><code class="mono">/zabbix-check</code></td>
+              </tr>
+              <tr>
+                <td>PrometheusRules YAML on Kubernetes</td>
+                <td><a href="./k8s-kit/">k8s-kit</a></td>
+                <td><code class="mono">/monitor</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="structure">
+        <div class="sec-head">
+          <div class="eyebrow">Anatomy</div>
+          <h2>Structure of every kit</h2>
+          <p>Same layout as the rest of the repo. Observability kits also add <code class="mono">references/</code> and a <code class="mono">*-BRAIN.md</code>.</p>
+        </div>
+        <div class="tree">{kit-name}/<br>
+├── README.md<br>
+├── <span class="d">.claude/</span><br>
+│&nbsp;&nbsp;&nbsp;├── <span class="d">skills/</span>/{skill}/<span class="f">SKILL.md</span><br>
+│&nbsp;&nbsp;&nbsp;└── <span class="d">rules/</span>/<span class="f">*-conventions.md</span>, <span class="f">approval-gate.md</span><br>
+├── <span class="d">_templates/</span><br>
+├── <span class="d">references/</span> <span class="f">← optional (obs kits)</span><br>
+└── <span class="f">*-BRAIN.md</span> <span class="f">← optional (obs kits)</span></div>
+      </section>
+
+      <section id="principles">
+        <div class="sec-head">
+          <div class="eyebrow">Design</div>
+          <h2>Shared principles</h2>
+        </div>
+        <div class="principles">
+          <article class="principle">
+            <div class="num">01</div>
+            <h3>Agent never runs the risky command</h3>
+            <p><code class="mono">docker build</code>, <code class="mono">kubectl apply</code>, Zabbix imports, ES deletes, Grafana API — human reviews and runs. See each kit’s <code class="mono">approval-gate.md</code>.</p>
+          </article>
+          <article class="principle">
+            <div class="num">02</div>
+            <h3>Rules are the single source of truth</h3>
+            <p>Skills reference shared <code class="mono">*-conventions.md</code> instead of repeating security and resource rules in every skill file.</p>
+          </article>
+          <article class="principle">
+            <div class="num">03</div>
+            <h3>Templates are copy-and-fill</h3>
+            <p>Known-good baselines for both AI and humans. Docker samples assume <b>.NET 10</b> unless you override.</p>
+          </article>
+          <article class="principle">
+            <div class="num">04</div>
+            <h3>Evidence-only investigations</h3>
+            <p>Log and problem checks do not invent hit counts or metric values — <code class="mono">TBD</code> when data is missing.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="install">
+        <div class="install">
+          <div class="install-copy">
+            <h2>Install any kit</h2>
+            <p>Copy <code class="mono">.claude/</code> and <code class="mono">_templates/</code> into your project. No package manager.</p>
+            <p style="font-size:0.84rem;color:var(--text-muted);">Example below uses <b style="color:var(--text)">docker-kit</b> with a <b style="color:var(--text)">.NET 10</b> prompt. Swap the folder name for other kits.</p>
+          </div>
+          <div class="install-code">
+<span class="c"># from repo root</span><br>
+cp -r devops/docker-kit/.claude/ your-project/.claude/<br>
+cp -r devops/docker-kit/_templates/ your-project/_templates/<br>
+<br>
+<span class="c"># in Claude Code (or compatible agent)</span><br>
+<span class="k">/dockerfile</span> .NET 10 Minimal API --prod<br>
+<br>
+<span class="c"># observability example</span><br>
+cp -r devops/elk-kit/.claude/ your-project/.claude/<br>
+<span class="k">/log-check</span> booking-api --env prod --since 1h
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap foot-row">
+      <span>Part of <a href="../index.html" style="color:var(--accent);text-decoration:none;">agentic-kits</a> · samples: <b class="mono">.NET 10</b> · <a href="https://github.com/KhaiTrang1995/agentic-kits" target="_blank" rel="noopener noreferrer" style="color:var(--accent);text-decoration:none;">GitHub</a></span>
+      <nav class="foot-links" aria-label="Footer">
+        <a href="../index.html">Home</a>
+        <a href="#run">Run</a>
+        <a href="#observe">Observe</a>
+        <a href="#install">Install</a>
+        <a href="../LICENSE">License</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var root = document.documentElement;
+      var saved = localStorage.getItem("kit-theme");
+      if (saved) root.setAttribute("data-theme", saved);
+      var sun = '<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>';
+      var moon = '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"></path>';
+      function isDark() {
+        var attr = root.getAttribute("data-theme");
+        if (attr) return attr === "dark";
+        return window.matchMedia("(prefers-color-scheme: dark)").matches;
+      }
+      function paint() {
+        document.getElementById("themeIcon").innerHTML = isDark() ? moon : sun;
+      }
+      paint();
+      document.getElementById("themeToggle").addEventListener("click", function () {
+        var next = isDark() ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("kit-theme", next);
+        paint();
+      });
+    })();
+  </script>
+</body>
+</html>
