@@ -1,0 +1,41 @@
+---
+permalink: /404.html
+layout: null
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 — agentic-kits</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body {
+      margin: 0; min-height: 100vh; display: grid; place-items: center;
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+      background: #0c0f14; color: #e8ecf1; padding: 2rem; text-align: center;
+    }
+    h1 { font-size: 1.5rem; letter-spacing: -0.02em; margin: 0 0 0.5rem; }
+    p { color: #93a0b0; margin: 0 0 1.25rem; max-width: 28rem; line-height: 1.55; }
+    a {
+      color: #3dbdb5; font-weight: 600; text-decoration: none;
+    }
+    a:hover { text-decoration: underline; text-underline-offset: 3px; }
+    .code { font-family: ui-monospace, monospace; color: #e8955c; }
+  </style>
+</head>
+<body>
+  <div>
+    <p class="code">404</p>
+    <h1>Page not found</h1>
+    <p>That path is not part of the published docs site. Kit source files live on GitHub.</p>
+    <p>
+      <a href="{{ site.baseurl }}/">Home</a>
+      ·
+      <a href="{{ site.baseurl }}/devops/">DevOps docs</a>
+      ·
+      <a href="https://github.com/KhaiTrang1995/agentic-kits">GitHub</a>
+    </p>
+  </div>
+</body>
+</html>

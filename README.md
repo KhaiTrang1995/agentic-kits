@@ -13,6 +13,9 @@ Reusable **AI Skill Kits** for coding agents (Claude Code and any other subagent
 
 Browse the visual index: [`index.html`](./index.html) · DevOps docs: [`devops/`](./devops/)
 
+**Live site (GitHub Pages + Jekyll):**  
+https://KhaiTrang1995.github.io/agentic-kits/
+
 ## Why this exists
 
 Prompting an agent to "write me a Dockerfile" gets you *a* Dockerfile — not necessarily a multi-stage, non-root, healthcheck'd one your team would actually ship. A kit turns that tribal knowledge into a `rules/*.md` file the agent reads before generating anything, so the output is consistent whether it's you, a teammate, or a different agent session asking.
@@ -80,6 +83,31 @@ You can copy multiple kits into the same project. Watch for skill-name collision
 3. **Approval gate, not a wall of Y/n.** Every kit follows the same L1 (plan preview) → L2 (diff on edit) → L3 (iterate on creative output) pattern, so switching between kits doesn't mean relearning a new interaction model.
 4. **Kits compose.** Where it makes sense, one kit references another instead of duplicating content — e.g. `docker-swarm-kit` points at `docker-kit`'s Dockerfile conventions rather than restating them.
 5. **Evidence-only on investigations.** Log and problem checks do not invent hit counts or metric values.
+
+## GitHub Pages (Jekyll)
+
+This repo publishes a static docs site with **Jekyll** (GitHub Pages).
+
+| File | Role |
+|------|------|
+| [`_config.yml`](./_config.yml) | Site title, `baseurl`, exclude rules for kit internals |
+| [`Gemfile`](./Gemfile) | `github-pages` + plugins for local parity |
+| [`.github/workflows/pages.yml`](./.github/workflows/pages.yml) | Build & deploy on push to `main` |
+| [`index.html`](./index.html) / [`devops/index.html`](./devops/index.html) | Docs UI |
+
+**Enable once:** repo **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
+### Local preview
+
+```bash
+# Ruby 3+ recommended
+bundle install
+bundle exec jekyll serve
+
+# open http://127.0.0.1:4000/agentic-kits/
+```
+
+> Kit skill packages (`.claude/`, templates, brains) are **excluded** from the Jekyll site so they stay source-only on GitHub. Use the HTML docs for browsing; clone the repo for skills.
 
 ## License
 

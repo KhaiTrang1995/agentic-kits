@@ -1,0 +1,77 @@
+# Jekyll / GitHub Pages — agentic-kits
+# https://github.com/KhaiTrang1995/agentic-kits
+
+title: agentic-kits
+description: >-
+  Reusable AI skill kits for coding agents — Skills, Rules, and Templates.
+  DevOps kits for Docker, Swarm, Kubernetes, Zabbix, ELK, and Grafana.
+  Examples use .NET 10.
+lang: en
+
+# Project site: https://KhaiTrang1995.github.io/agentic-kits/
+url: "https://KhaiTrang1995.github.io"
+baseurl: "/agentic-kits"
+
+repository: KhaiTrang1995/agentic-kits
+github:
+  repository_url: https://github.com/KhaiTrang1995/agentic-kits
+
+# Author / footer
+author:
+  name: KhaiTrang1995
+  url: https://github.com/KhaiTrang1995
+
+# Timezone for any dated content
+timezone: Asia/Ho_Chi_Minh
+
+# Markdown
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+highlighter: rouge
+
+# Keep relative links working with baseurl in liquid templates
+relative_links:
+  enabled: true
+  collections: false
+
+# Do not process agent skill packages as Jekyll pages (they use YAML front matter)
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor
+  - node_modules
+  - share-untrack
+  - .sass-cache
+  - .jekyll-cache
+  - .jekyll-metadata
+  - .git
+  - .github
+  - LICENSE
+  - "**/.claude/**"
+  - "**/_templates/**"
+  - "**/references/**"
+  - "**/SKILL.md"
+  - "**/*-BRAIN.md"
+  - "**/ELK-BRAIN.md"
+  - "**/GRAFANA-BRAIN.md"
+  - "**/ZABBIX-BRAIN.md"
+
+# Keep these in the published site
+include:
+  - index.html
+  - devops
+
+# Plugins allowed on GitHub Pages
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-relative-links
+
+# Defaults: HTML docs stay as-is (no theme chrome unless front matter asks)
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: null
