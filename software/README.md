@@ -4,7 +4,7 @@ Role and craft kits for the software delivery lifecycle — same structure as [`
 
 | Kit | Status | Scope | Skills (highlight) |
 |-----|--------|--------|--------------------|
-| [drawio-kit](./drawio-kit/) | Available | Architecture & technical diagrams (`.drawio` / diagrams.net) | `/architecture`, `/flowchart`, `/erd`, `/diagram` — brain: `DRAWIO-BRAIN.md` |
+| [drawio-kit](https://github.com/KhaiTrang1995/agentic-kits/tree/main/software/drawio-kit) | Available | Architecture & technical diagrams (`.drawio` / diagrams.net) | `/architecture`, `/flowchart`, `/erd`, `/diagram` — brain: `DRAWIO-BRAIN.md` |
 
 More role kits (BA full pack, PM, QA, tech lead, …) may land here over time. Container and observability kits stay under [`devops/`](../devops/).
 
