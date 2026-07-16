@@ -1,5 +1,22 @@
 # Software Kits
 
-Coming soon — role-based AI Skill Kits for the software delivery lifecycle (BA, PM, backend/frontend development, QA, tech lead, etc.), following the same `.claude/skills` + `.claude/rules` + `_templates` structure as [`devops/`](../devops/).
+Role and craft kits for the software delivery lifecycle — same structure as [`devops/`](../devops/): `.claude/skills` + `.claude/rules` + `_templates` (+ optional brain, scripts, references).
 
-`devops/` shipped first because it was the most immediately reusable across projects. Track progress on the main [README](../README.md).
+| Kit | Status | Scope | Skills (highlight) |
+|-----|--------|--------|--------------------|
+| [drawio-kit](./drawio-kit/) | Available | Architecture & technical diagrams (`.drawio` / diagrams.net) | `/architecture`, `/flowchart`, `/erd`, `/diagram` — brain: `DRAWIO-BRAIN.md` |
+
+More role kits (BA full pack, PM, QA, tech lead, …) may land here over time. Container and observability kits stay under [`devops/`](../devops/).
+
+## Install pattern
+
+```bash
+cp -r software/{kit-name}/.claude/ your-project/.claude/
+cp -r software/{kit-name}/_templates/ your-project/_templates/
+```
+
+See each kit’s README for extra assets (e.g. `drawio-kit` scripts and draw.io desktop CLI).
+
+## Contributing
+
+See [CONTRIBUTING.md](../CONTRIBUTING.md).

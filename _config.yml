@@ -57,11 +57,17 @@ exclude:
   - "**/ELK-BRAIN.md"
   - "**/GRAFANA-BRAIN.md"
   - "**/ZABBIX-BRAIN.md"
+  - "**/DRAWIO-BRAIN.md"
+  - "software/**/scripts/**"
+  - "software/**/data/**"
+  - "software/**/styles/**"
+  - "software/**/LICENSE-drawio-skill"
 
 # Keep these in the published site
 include:
   - index.html
   - devops
+  - software
 
 # Plugins allowed on GitHub Pages
 plugins:
