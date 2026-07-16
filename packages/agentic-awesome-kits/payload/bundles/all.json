@@ -1,0 +1,14 @@
+{
+  "id": "all",
+  "name": "All public kits",
+  "description": "Every kit under kits/",
+  "kits": [
+    "docker-kit",
+    "docker-swarm-kit",
+    "elk-kit",
+    "grafana-kit",
+    "k8s-kit",
+    "zabbix-kit",
+    "drawio-kit"
+  ]
+}

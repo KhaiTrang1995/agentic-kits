@@ -1,0 +1,54 @@
+# values.yaml — {{chart_name}}
+# Single source of truth. Override per environment via values-{env}.yaml
+
+replicaCount: {{replicas}}
+
+image:
+  repository: {{registry}}/{{app_name}}
+  tag: "{{version}}"
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: ClusterIP
+  port: {{service_port}}
+  targetPort: {{port}}
+
+ingress:
+  enabled: false
+  host: {{host}}
+  tls: true
+  clusterIssuer: {{cluster_issuer}}
+
+resources:
+  requests:
+    cpu: {{cpu_request}}
+    memory: {{memory_request}}
+  limits:
+    cpu: {{cpu_limit}}
+    memory: {{memory_limit}}
+
+autoscaling:
+  enabled: true
+  minReplicas: {{min_replicas}}
+  maxReplicas: {{max_replicas}}
+  targetCPUUtilizationPercentage: 70
+
+probes:
+  liveness:
+    path: /health/live
+  readiness:
+    path: /health/ready
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1001
+  readOnlyRootFilesystem: true
+
+env: {}
+  # KEY: value
+
+secretRefs: []
+  # - name: {{app_name}}-secret

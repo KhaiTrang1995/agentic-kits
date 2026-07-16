@@ -1,0 +1,13 @@
+{
+  "id": "devops",
+  "name": "devops",
+  "description": "All kits under kits/devops/",
+  "kits": [
+    "docker-kit",
+    "docker-swarm-kit",
+    "elk-kit",
+    "grafana-kit",
+    "k8s-kit",
+    "zabbix-kit"
+  ]
+}

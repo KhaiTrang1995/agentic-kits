@@ -1,0 +1,53 @@
+{
+  "name": "agentic-awesome-kits",
+  "version": "0.1.1",
+  "description": "Install public AI skill kits (DevOps + draw.io) into Claude Code, Cursor, Codex, and other agent CLIs — project-first, local copy only.",
+  "license": "CC-BY-NC-SA-4.0",
+  "type": "commonjs",
+  "bin": {
+    "agentic-awesome-kits": "bin/cli.js"
+  },
+  "files": [
+    "bin",
+    "payload",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "pack": "node scripts/pack-kits.mjs",
+    "prepublishOnly": "node scripts/pack-kits.mjs",
+    "prepack": "node scripts/pack-kits.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": [
+    "claude-code",
+    "cursor",
+    "codex",
+    "gemini-cli",
+    "agentic-skills",
+    "skills",
+    "devops",
+    "docker",
+    "kubernetes",
+    "zabbix",
+    "elk",
+    "grafana",
+    "drawio",
+    "npx"
+  ],
+  "homepage": "https://github.com/KhaiTrang1995/agentic-awesome-kits#readme",
+  "bugs": {
+    "url": "https://github.com/KhaiTrang1995/agentic-awesome-kits/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KhaiTrang1995/agentic-awesome-kits.git",
+    "directory": "packages/agentic-awesome-kits"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}

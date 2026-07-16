@@ -1,0 +1,65 @@
+# Template: Reverse-proxy / ingress-equivalent pattern for Swarm using Traefik.
+# Swarm has no native Ingress resource — hostname/path routing is done via labels
+# discovered by a proxy service. Deploy this alongside docker-stack.yml services.
+version: "3.8"
+
+services:
+  proxy:
+    image: traefik:v3.0
+    command:
+      - --providers.swarm.endpoint=unix:///var/run/docker.sock
+      - --providers.swarm.exposedByDefault=false
+      - --entrypoints.web.address=:80
+      - --entrypoints.websecure.address=:443
+      - --certificatesresolvers.le.acme.httpchallenge=true
+      - --certificatesresolvers.le.acme.httpchallenge.entrypoint=web
+      - --certificatesresolvers.le.acme.email={{acme_email}}
+      - --certificatesresolvers.le.acme.storage=/letsencrypt/acme.json
+    ports:
+      - target: 80
+        published: 80
+        mode: host
+      - target: 443
+        published: 443
+        mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik-certs:/letsencrypt
+    networks:
+      - proxy-public
+    deploy:
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 128M
+      restart_policy:
+        condition: on-failure
+
+  # Example: how a service in docker-stack.yml opts into routing through Traefik.
+  # Add these labels to the `web` service instead of publishing its port directly:
+  #
+  # web:
+  #   networks:
+  #     - proxy-public
+  #     - frontend
+  #   deploy:
+  #     labels:
+  #       - traefik.enable=true
+  #       - traefik.http.routers.web.rule=Host(`{{host}}`)
+  #       - traefik.http.routers.web.entrypoints=websecure
+  #       - traefik.http.routers.web.tls.certresolver=le
+  #       - traefik.http.services.web.loadbalancer.server.port=80
+
+networks:
+  proxy-public:
+    driver: overlay
+    attachable: true
+
+volumes:
+  traefik-certs:

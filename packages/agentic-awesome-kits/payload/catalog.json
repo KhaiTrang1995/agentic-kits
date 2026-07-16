@@ -1,0 +1,90 @@
+{
+  "version": "0.1.0-dev",
+  "packedAt": "2026-07-16T03:14:34.657Z",
+  "source": "kits/",
+  "kits": [
+    {
+      "id": "docker-kit",
+      "category": "devops",
+      "skills": [
+        "ci",
+        "compose",
+        "dockerfile"
+      ],
+      "path": "kits/devops/docker-kit"
+    },
+    {
+      "id": "docker-swarm-kit",
+      "category": "devops",
+      "skills": [
+        "secret",
+        "service",
+        "stack"
+      ],
+      "path": "kits/devops/docker-swarm-kit"
+    },
+    {
+      "id": "elk-kit",
+      "category": "devops",
+      "skills": [
+        "elk",
+        "elk-health",
+        "es-query",
+        "kibana-dashboard",
+        "log-check",
+        "logstash"
+      ],
+      "path": "kits/devops/elk-kit"
+    },
+    {
+      "id": "grafana-kit",
+      "category": "devops",
+      "skills": [
+        "grafana",
+        "grafana-alert",
+        "grafana-dashboard",
+        "grafana-explore",
+        "loki-query"
+      ],
+      "path": "kits/devops/grafana-kit"
+    },
+    {
+      "id": "k8s-kit",
+      "category": "devops",
+      "skills": [
+        "deploy",
+        "helm",
+        "monitor"
+      ],
+      "path": "kits/devops/k8s-kit"
+    },
+    {
+      "id": "zabbix-kit",
+      "category": "devops",
+      "skills": [
+        "zabbix",
+        "zabbix-check",
+        "zabbix-host",
+        "zabbix-template",
+        "zabbix-trigger"
+      ],
+      "path": "kits/devops/zabbix-kit"
+    },
+    {
+      "id": "drawio-kit",
+      "category": "software",
+      "skills": [
+        "architecture",
+        "diagram",
+        "erd",
+        "flowchart"
+      ],
+      "path": "kits/software/drawio-kit"
+    }
+  ],
+  "categories": [
+    "devops",
+    "software"
+  ],
+  "skillCount": 29
+}
