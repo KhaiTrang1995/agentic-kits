@@ -1304,6 +1304,11 @@
       </div>
 
       <div class="sidenav-divider"></div>
+      <div class="sidenav-section-title">Folders</div>
+      <a class="sidenav-link" href="./kits/devops/"><span class="dot"></span><span class="sidenav-link-text">kits/devops/</span></a>
+      <a class="sidenav-link" href="./kits/software/"><span class="dot"></span><span class="sidenav-link-text">kits/software/</span></a>
+      <a class="sidenav-link" href="./kits/"><span class="dot"></span><span class="sidenav-link-text">kits/</span></a>
+      <div class="sidenav-divider"></div>
       <div class="sidenav-section-title">Page</div>
       <a class="sidenav-link" href="#how"><span class="dot"></span><span class="sidenav-link-text">Anatomy</span></a>
       <a class="sidenav-link" href="#principles"><span class="dot"></span><span class="sidenav-link-text">Principles</span></a>
@@ -1331,7 +1336,8 @@
               <div class="hero-ctas">
                 <a href="#kits" class="btn btn-primary">Browse kits</a>
                 <a href="#quickstart" class="btn btn-secondary">Quick start</a>
-                <a href="./kits/devops/" class="btn btn-ghost">devops/ docs</a>
+                <a href="./kits/devops/" class="btn btn-ghost">kits/devops</a>
+                <a href="./kits/software/" class="btn btn-ghost">kits/software</a>
               </div>
             </div>
 
@@ -1575,7 +1581,9 @@
           </details>
 
           <div class="path-strip">
-            <span><b style="color:var(--text)">Run path</b></span>
+            <span><b style="color:var(--text)">kits/devops</b></span>
+            <a href="./kits/devops/" style="text-decoration:none;color:inherit;"><code>kits/devops/</code></a>
+            <span class="arrow">·</span>
             <code>docker-kit</code><span class="arrow">→</span>
             <code>docker-swarm-kit</code><span class="arrow">→</span>
             <code>k8s-kit</code>
@@ -1590,6 +1598,8 @@
 
           <div class="path-strip" style="margin-top:1rem;">
             <span><b style="color:var(--text)">Software</b></span>
+            <a href="./kits/software/" style="text-decoration:none;color:inherit;"><code>kits/software/</code></a>
+            <span class="arrow">→</span>
             <a href="https://github.com/KhaiTrang1995/agentic-awesome-kits/tree/main/kits/software/drawio-kit" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;"><code>drawio-kit</code></a>
             <span class="arrow">·</span>
             <span>.drawio architecture · flowchart · ERD · advanced /diagram</span>
@@ -1598,7 +1608,7 @@
           </div>
 
           <div class="pending-card">
-            <span><strong>software/</strong> — more role kits (PM, QA, tech lead, full BA pack) still planned.</span>
+            <span><strong>kits/software/</strong> — more role kits (PM, QA, tech lead, full BA pack) still planned.</span>
             <span class="status-pill pending"><span class="dot"></span>more soon</span>
           </div>
         </section>
@@ -1683,15 +1693,21 @@
                   <span aria-hidden="true">★</span>
                   <span><b>Examples are .NET 10.</b> The command below and <code class="mono">Dockerfile.dotnet</code> template target .NET 10 Minimal API. Pass another runtime in the prompt when needed.</span>
                 </div>
-                <a href="./kits/devops/" class="btn btn-primary" style="align-self:flex-start;margin-top:0.35rem;">All devops kits</a>
+                <div style="display:flex;flex-wrap:wrap;gap:0.55rem;margin-top:0.35rem;">
+                  <a href="./kits/devops/" class="btn btn-primary">kits/devops</a>
+                  <a href="./kits/software/" class="btn btn-secondary">kits/software</a>
+                </div>
               </div>
               <div class="qs-code">
 <span class="c"># clone once</span><br>
 git clone &lt;this-repo&gt;<br>
 <br>
-<span class="c"># copy the kit you need</span><br>
+<span class="c"># devops — kit under kits/devops/</span><br>
 cp -r agentic-awesome-kits/kits/devops/docker-kit/.claude/ your-project/.claude/<br>
 cp -r agentic-awesome-kits/kits/devops/docker-kit/_templates/ your-project/_templates/<br>
+<br>
+<span class="c"># software — kit under kits/software/</span><br>
+cp -r agentic-awesome-kits/kits/software/drawio-kit/.claude/ your-project/.claude/<br>
 <br>
 <span class="c"># in Claude Code (or any compatible agent)</span><br>
 <span class="k">/dockerfile</span> .NET 10 Minimal API --prod
@@ -1708,9 +1724,10 @@ cp -r agentic-awesome-kits/kits/devops/docker-kit/_templates/ your-project/_temp
       <span>Licensed <a href="./LICENSE" style="text-decoration:underline;text-underline-offset:2px;">CC BY-NC-SA 4.0</a> — share &amp; adapt, don’t resell. Samples: <b class="mono">.NET 10</b>.</span>
       <nav class="foot-links" aria-label="Footer">
         <a href="https://github.com/KhaiTrang1995/agentic-awesome-kits" target="_blank" rel="noopener noreferrer">GitHub</a>
-        <a href="./kits/devops/">devops/</a>
-        <a href="https://github.com/KhaiTrang1995/agentic-awesome-kits/tree/main/kits/software" target="_blank" rel="noopener noreferrer">software/</a>
-        <a href="https://github.com/KhaiTrang1995/agentic-awesome-kits/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">License</a>
+        <a href="./kits/">kits/</a>
+        <a href="./kits/devops/">kits/devops/</a>
+        <a href="./kits/software/">kits/software/</a>
+        <a href="./LICENSE">License</a>
       </nav>
     </div>
   </footer>
