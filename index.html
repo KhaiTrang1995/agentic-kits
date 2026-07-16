@@ -41,6 +41,7 @@
     --mono: "IBM Plex Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
     --max: 72rem;
     --nav-h: 4rem;
+    --side-w: 16.5rem;
   }
 
   @media (prefers-color-scheme: dark) {
@@ -470,38 +471,162 @@
   }
   .sec-toolbar {
     display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+  .search-wrap {
+    display: flex;
     flex-wrap: wrap;
+    gap: 0.65rem;
     align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-    margin-bottom: 1.25rem;
   }
-  .tabs {
-    display: inline-flex;
-    padding: 0.25rem;
-    gap: 0.2rem;
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-  }
-  .tab {
-    border: 0;
-    background: transparent;
-    color: var(--text-muted);
-    font-family: var(--font);
-    font-size: 0.82rem;
-    font-weight: 600;
-    padding: 0.45rem 0.9rem;
-    border-radius: 999px;
-    cursor: pointer;
-    transition: background 0.15s, color 0.15s;
-  }
-  .tab[aria-selected="true"] {
+  .search-box {
+    flex: 1 1 16rem;
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    padding: 0.65rem 0.9rem;
     background: var(--bg-elevated);
-    color: var(--text);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-m);
     box-shadow: var(--shadow-sm);
+    transition: border-color 0.15s, box-shadow 0.15s;
   }
-  .tab:hover { color: var(--text); }
+  .search-box:focus-within {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .search-box svg {
+    width: 1.05rem;
+    height: 1.05rem;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+  .search-box input {
+    flex: 1;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--text);
+    font-family: var(--font);
+    font-size: 0.92rem;
+    min-width: 0;
+  }
+  .search-box input::placeholder { color: var(--text-muted); }
+  .search-meta {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+  .search-meta strong { color: var(--text); font-weight: 650; }
+  .catalog-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+  .catalog-actions button {
+    font-family: var(--font);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 0.4rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: 0.15s ease;
+  }
+  .catalog-actions button:hover {
+    color: var(--text);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  /* Collapsible category panels */
+  .kit-catalog { display: flex; flex-direction: column; gap: 0.85rem; }
+  .kit-section {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-m);
+    background: var(--bg-elevated);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+  }
+  .kit-section[hidden] { display: none; }
+  .kit-section-head {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.95rem 1.1rem;
+    border: 0;
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    text-align: left;
+    font-family: var(--font);
+    transition: background 0.15s;
+  }
+  .kit-section-head:hover { background: color-mix(in srgb, var(--surface) 70%, var(--accent-soft)); }
+  .kit-section-head .chev {
+    width: 1.25rem;
+    height: 1.25rem;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    color: var(--accent);
+    transition: transform 0.2s ease;
+  }
+  .kit-section-head .chev svg { width: 0.9rem; height: 0.9rem; }
+  .kit-section:not([data-open="true"]) .chev { transform: rotate(-90deg); }
+  .kit-section-head .label { flex: 1; min-width: 0; }
+  .kit-section-head .label h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .kit-section-head .label p {
+    margin: 0.2rem 0 0;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .kit-section-head .count {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid color-mix(in srgb, var(--accent) 25%, transparent);
+    padding: 0.28rem 0.55rem;
+    border-radius: 999px;
+    flex-shrink: 0;
+  }
+  .kit-section-body {
+    display: none;
+    padding: 1rem 1.1rem 1.15rem;
+    border-top: 1px solid var(--line);
+  }
+  .kit-section[data-open="true"] .kit-section-body { display: block; }
+  .kit-section .kit-grid { margin: 0; }
+  .kit-section .path-strip {
+    margin-top: 0.85rem;
+    margin-bottom: 0;
+  }
+  .empty-search {
+    display: none;
+    text-align: center;
+    padding: 2rem 1rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    border: 1px dashed var(--line-strong);
+    border-radius: var(--radius-m);
+    background: color-mix(in srgb, var(--surface) 40%, transparent);
+  }
+  .empty-search.visible { display: block; }
 
   /* —— Kit cards —— */
   .kit-grid {
@@ -822,11 +947,254 @@
     transition: color 0.15s;
   }
   .foot-links a:hover { color: var(--accent); }
+
+  /* —— App shell + left navigation (catalog-style) —— */
+  .shell {
+    display: grid;
+    grid-template-columns: var(--side-w) minmax(0, 1fr);
+    min-height: calc(100vh - var(--nav-h));
+    position: relative;
+    z-index: 1;
+  }
+  .sidenav {
+    position: sticky;
+    top: var(--nav-h);
+    height: calc(100vh - var(--nav-h));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border-right: 1px solid var(--line);
+    background: color-mix(in srgb, var(--bg-elevated) 92%, transparent);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    padding: 1rem 0.85rem 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+  .sidenav-brand {
+    display: none;
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem 0.5rem;
+  }
+  .sidenav-tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    padding: 0 0.35rem 0.15rem;
+  }
+  .sidenav-tools button {
+    font-family: var(--font);
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 0.32rem 0.55rem;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: 0.12s ease;
+  }
+  .sidenav-tools button:hover {
+    color: var(--text);
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .sidenav-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+  .sidenav-group-label {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.4rem;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    padding: 0.35rem 0.55rem;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    border-radius: var(--radius-s);
+    text-align: left;
+  }
+  .sidenav-group-label:hover {
+    color: var(--text);
+    background: var(--surface);
+  }
+  .sidenav-group-label .gchev {
+    width: 0.85rem;
+    height: 0.85rem;
+    display: grid;
+    place-items: center;
+    transition: transform 0.18s ease;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .sidenav-group-label .gchev svg { width: 0.75rem; height: 0.75rem; }
+  .sidenav-group:not([data-open="true"]) .gchev { transform: rotate(-90deg); }
+  .sidenav-group:not([data-open="true"]) .sidenav-group-body { display: none; }
+  .sidenav-group-body { display: block; }
+  .sidenav-item {
+    display: flex;
+    flex-direction: column;
+  }
+  .sidenav-item-row {
+    display: flex;
+    align-items: stretch;
+    gap: 0.1rem;
+  }
+  .sidenav-item-row > a {
+    flex: 1;
+    min-width: 0;
+  }
+  .sidenav-fold {
+    width: 1.55rem;
+    flex-shrink: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text-muted);
+    border-radius: var(--radius-s);
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    padding: 0;
+  }
+  .sidenav-fold:hover { color: var(--accent); background: var(--surface); }
+  .sidenav-fold svg {
+    width: 0.7rem;
+    height: 0.7rem;
+    transition: transform 0.18s ease;
+  }
+  .sidenav-item:not([data-open="true"]) .sidenav-fold svg { transform: rotate(-90deg); }
+  .sidenav-item:not([data-open="true"]) .sidenav-sub { display: none; }
+  .sidenav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+  .sidenav-list a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.48rem 0.6rem;
+    border-radius: var(--radius-s);
+    text-decoration: none;
+    color: var(--text-muted);
+    font-size: 0.86rem;
+    font-weight: 500;
+    transition: background 0.12s, color 0.12s;
+  }
+  .sidenav-list a:hover {
+    color: var(--text);
+    background: var(--surface);
+  }
+  .sidenav-list a.active {
+    color: var(--accent);
+    background: var(--accent-soft);
+    font-weight: 600;
+  }
+  .sidenav-list a .nav-count {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    opacity: 0.85;
+    color: inherit;
+  }
+  .sidenav-sub {
+    list-style: none;
+    margin: 0.15rem 0 0.35rem;
+    padding: 0 0 0 0.65rem;
+    border-left: 1px solid var(--line);
+    margin-left: 0.75rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.08rem;
+  }
+  .sidenav-sub a {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.55rem;
+    font-weight: 500;
+  }
+  .sidenav-foot {
+    margin-top: auto;
+    padding-top: 0.75rem;
+    border-top: 1px solid var(--line);
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+    padding-inline: 0.55rem;
+  }
+  .sidenav-foot a { color: var(--accent); text-decoration: none; font-weight: 600; }
+  .sidenav-foot a:hover { text-decoration: underline; text-underline-offset: 2px; }
+
+  .shell-main { min-width: 0; }
+  .shell-main .wrap { width: min(100% - 2.25rem, 64rem); }
+
+  .nav-toggle {
+    display: none;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-s);
+    background: var(--bg-elevated);
+    color: var(--text);
+    cursor: pointer;
+  }
+  .nav-toggle svg { width: 1.1rem; height: 1.1rem; }
+
+  .sidenav-backdrop {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 40;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  @media (max-width: 980px) {
+    .shell { grid-template-columns: 1fr; }
+    .nav-toggle { display: grid; }
+    .topnav { display: none; }
+    .sidenav {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: min(18rem, 86vw);
+      z-index: 60;
+      transform: translateX(-105%);
+      transition: transform 0.22s ease;
+      box-shadow: var(--shadow-lg);
+      padding-top: 1.15rem;
+    }
+    .sidenav.is-open { transform: translateX(0); }
+    .sidenav-brand { display: block; }
+    body.nav-open .sidenav-backdrop { display: block; }
+    body.nav-open { overflow: hidden; }
+  }
 </style>
 </head>
 <body>
   <header class="topbar">
     <div class="wrap topbar-inner">
+      <button type="button" class="nav-toggle" id="navToggle" aria-label="Open navigation" aria-controls="sidenav" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
       <a href="./" class="brand"><span class="slash">/</span>agentic-kits</a>
       <nav class="topnav" aria-label="Primary">
         <a href="#kits">Kits</a>
@@ -846,6 +1214,103 @@
     </div>
   </header>
 
+  <button type="button" class="sidenav-backdrop" id="sidenavBackdrop" aria-label="Close navigation" hidden></button>
+
+  <div class="shell">
+    <aside class="sidenav" id="sidenav" aria-label="Site navigation">
+      <div class="sidenav-brand"><span class="slash" style="color:var(--accent)">/</span>agentic-kits</div>
+
+      <div class="sidenav-tools">
+        <button type="button" id="navExpandAll" title="Expand all nav groups">Expand</button>
+        <button type="button" id="navCollapseAll" title="Collapse all nav groups">Collapse</button>
+      </div>
+
+      <div class="sidenav-group" data-open="true" data-nav-group>
+        <button type="button" class="sidenav-group-label" aria-expanded="true">
+          <span>Browse</span>
+          <span class="gchev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+        <div class="sidenav-group-body">
+          <ul class="sidenav-list">
+            <li><a href="#kits" data-nav="kits">All kits <span class="nav-count">7</span></a></li>
+            <li class="sidenav-item" data-open="true" data-nav-item>
+              <div class="sidenav-item-row">
+                <a href="#sec-run" data-nav="sec-run" data-open-section="sec-run">Run &amp; deploy <span class="nav-count">3</span></a>
+                <button type="button" class="sidenav-fold" aria-label="Collapse Run &amp; deploy kits" aria-expanded="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+              </div>
+              <ul class="sidenav-sub">
+                <li><a href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/docker-kit" target="_blank" rel="noopener noreferrer">docker-kit</a></li>
+                <li><a href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/docker-swarm-kit" target="_blank" rel="noopener noreferrer">docker-swarm-kit</a></li>
+                <li><a href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/k8s-kit" target="_blank" rel="noopener noreferrer">k8s-kit</a></li>
+              </ul>
+            </li>
+            <li class="sidenav-item" data-open="true" data-nav-item>
+              <div class="sidenav-item-row">
+                <a href="#sec-obs" data-nav="sec-obs" data-open-section="sec-obs">Observe <span class="nav-count">3</span></a>
+                <button type="button" class="sidenav-fold" aria-label="Collapse Observe kits" aria-expanded="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+              </div>
+              <ul class="sidenav-sub">
+                <li><a href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/zabbix-kit" target="_blank" rel="noopener noreferrer">zabbix-kit</a></li>
+                <li><a href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/elk-kit" target="_blank" rel="noopener noreferrer">elk-kit</a></li>
+                <li><a href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/grafana-kit" target="_blank" rel="noopener noreferrer">grafana-kit</a></li>
+              </ul>
+            </li>
+            <li class="sidenav-item" data-open="true" data-nav-item>
+              <div class="sidenav-item-row">
+                <a href="#sec-diagram" data-nav="sec-diagram" data-open-section="sec-diagram">Diagrams <span class="nav-count">1</span></a>
+                <button type="button" class="sidenav-fold" aria-label="Collapse Diagrams kits" aria-expanded="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+                </button>
+              </div>
+              <ul class="sidenav-sub">
+                <li><a href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/software/drawio-kit" target="_blank" rel="noopener noreferrer">drawio-kit</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sidenav-group" data-open="true" data-nav-group>
+        <button type="button" class="sidenav-group-label" aria-expanded="true">
+          <span>Guide</span>
+          <span class="gchev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+        <div class="sidenav-group-body">
+          <ul class="sidenav-list">
+            <li><a href="#how" data-nav="how">Anatomy</a></li>
+            <li><a href="#principles" data-nav="principles">Principles</a></li>
+            <li><a href="#quickstart" data-nav="quickstart">Quick start</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sidenav-group" data-open="true" data-nav-group>
+        <button type="button" class="sidenav-group-label" aria-expanded="true">
+          <span>Resources</span>
+          <span class="gchev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+        </button>
+        <div class="sidenav-group-body">
+          <ul class="sidenav-list">
+            <li><a href="./devops/">DevOps docs UI</a></li>
+            <li><a href="https://github.com/KhaiTrang1995/agentic-kits" target="_blank" rel="noopener noreferrer">GitHub repo</a></li>
+            <li><a href="https://github.com/KhaiTrang1995/agentic-kits/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener noreferrer">Contributing</a></li>
+            <li><a href="https://github.com/KhaiTrang1995/agentic-kits/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">License</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sidenav-foot">
+        Catalog for coding agents.<br />
+        Samples: <b class="mono">.NET 10</b><br />
+        <a href="https://github.com/KhaiTrang1995/agentic-kits" target="_blank" rel="noopener noreferrer">View source →</a>
+      </div>
+    </aside>
+
+    <div class="shell-main">
   <main>
     <div class="wrap">
       <section class="hero">
@@ -888,16 +1353,16 @@
       <div class="wrap">
         <div class="stats-row">
           <div class="stat">
-            <div class="stat-num">6</div>
-            <div class="stat-label">kits shipped (devops)</div>
+            <div class="stat-num">7</div>
+            <div class="stat-label">kits shipped</div>
           </div>
           <div class="stat">
-            <div class="stat-num">25</div>
+            <div class="stat-num">29</div>
             <div class="stat-label">skills across them</div>
           </div>
           <div class="stat">
-            <div class="stat-num">2</div>
-            <div class="stat-label">tracks · run + observe</div>
+            <div class="stat-num">3</div>
+            <div class="stat-label">categories · run · observe · diagram</div>
           </div>
           <div class="stat">
             <div class="stat-num">0</div>
@@ -911,167 +1376,206 @@
       <section id="kits">
         <div class="sec-toolbar">
           <div class="sec-head" style="margin-bottom:0;">
-            <div class="eyebrow">Category 01 — Available</div>
-            <h2>DevOps kits</h2>
-            <p style="margin-top:0.55rem;">Container orchestration path, plus observability for metrics, logs, and alerts. Each kit is copy-and-go.</p>
+            <div class="eyebrow">Catalog</div>
+            <h2>Browse kits by category</h2>
+            <p style="margin-top:0.55rem;">Search by name or skill, then expand a category. Cards open the kit folder on GitHub.</p>
           </div>
-          <div class="tabs" role="tablist" aria-label="Filter kits">
-            <button class="tab" role="tab" id="tab-all" aria-selected="true" data-filter="all" type="button">All</button>
-            <button class="tab" role="tab" id="tab-run" aria-selected="false" data-filter="run" type="button">Run &amp; deploy</button>
-            <button class="tab" role="tab" id="tab-obs" aria-selected="false" data-filter="obs" type="button">Observe</button>
+          <div class="search-wrap">
+            <label class="search-box" for="kitSearch">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3-3"/></svg>
+              <input id="kitSearch" type="search" placeholder="Search kits or skills — e.g. log-check, k8s, drawio, zabbix…" autocomplete="off" enterkeyhint="search" />
+            </label>
+            <span class="search-meta" id="searchMeta"><strong id="visibleCount">7</strong> / 7 kits</span>
+          </div>
+          <div class="catalog-actions">
+            <button type="button" id="expandAll">Expand all</button>
+            <button type="button" id="collapseAll">Collapse all</button>
+            <button type="button" id="clearSearch">Clear search</button>
           </div>
         </div>
 
-        <div class="kit-grid" id="kitGrid">
-          <a class="kit-card" data-group="run" href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/docker-kit" target="_blank" rel="noopener noreferrer">
-            <div class="kit-card-top">
-              <span class="name">docker-kit</span>
-              <span class="status-pill available"><span class="dot"></span>available</span>
-            </div>
-            <div class="kit-body">
-              <h3>Docker</h3>
-              <p>Single-host containerization — Dockerfile, compose, CI. No orchestrator.</p>
-              <div class="chips">
-                <span class="chip">/dockerfile</span>
-                <span class="chip">/compose</span>
-                <span class="chip">/ci</span>
+        <div class="empty-search" id="emptySearch" role="status">No kits match your search. Try <code class="mono">log</code>, <code class="mono">docker</code>, or <code class="mono">diagram</code>.</div>
+
+        <div class="kit-catalog" id="kitCatalog">
+          <!-- Run & deploy -->
+          <div class="kit-section" data-open="true" data-category="run" id="sec-run">
+            <button type="button" class="kit-section-head" aria-expanded="true" aria-controls="body-run" id="head-run">
+              <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+              <span class="label">
+                <h3>Run &amp; deploy</h3>
+                <p>Containerize and orchestrate — Docker → Swarm → Kubernetes</p>
+              </span>
+              <span class="count" data-count-for="run">3 kits</span>
+            </button>
+            <div class="kit-section-body" id="body-run" role="region" aria-labelledby="head-run">
+              <div class="kit-grid">
+                <a class="kit-card" data-group="run" data-search="docker-kit docker dockerfile compose ci containerization .net 10" href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/docker-kit" target="_blank" rel="noopener noreferrer">
+                  <div class="kit-card-top">
+                    <span class="name">docker-kit</span>
+                    <span class="status-pill available"><span class="dot"></span>available</span>
+                  </div>
+                  <div class="kit-body">
+                    <h3>Docker</h3>
+                    <p>Single-host containerization — Dockerfile, compose, CI. No orchestrator.</p>
+                    <div class="chips">
+                      <span class="chip">/dockerfile</span>
+                      <span class="chip">/compose</span>
+                      <span class="chip">/ci</span>
+                    </div>
+                    <div class="kit-meta"><b>Example:</b> <span class="mono">/dockerfile .NET 10 Minimal API --prod</span></div>
+                  </div>
+                </a>
+                <a class="kit-card" data-group="run" data-search="docker-swarm-kit swarm stack service secret multi-node compose" href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/docker-swarm-kit" target="_blank" rel="noopener noreferrer">
+                  <div class="kit-card-top">
+                    <span class="name">docker-swarm-kit</span>
+                    <span class="status-pill available"><span class="dot"></span>available</span>
+                  </div>
+                  <div class="kit-body">
+                    <h3>Docker Swarm</h3>
+                    <p>Multi-node stacks that stay in Compose syntax — <span class="mono">deploy:</span>, not a new API.</p>
+                    <div class="chips">
+                      <span class="chip">/stack</span>
+                      <span class="chip">/service</span>
+                      <span class="chip">/secret</span>
+                    </div>
+                    <div class="kit-meta"><b>Use when</b> you need multi-node without full K8s.</div>
+                  </div>
+                </a>
+                <a class="kit-card" data-group="run" data-search="k8s-kit kubernetes deploy helm monitor hpa ingress prometheus" href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/k8s-kit" target="_blank" rel="noopener noreferrer">
+                  <div class="kit-card-top">
+                    <span class="name">k8s-kit</span>
+                    <span class="status-pill available"><span class="dot"></span>available</span>
+                  </div>
+                  <div class="kit-body">
+                    <h3>Kubernetes</h3>
+                    <p>Manifests, Helm charts, Prometheus rules — when Swarm primitives run out.</p>
+                    <div class="chips">
+                      <span class="chip">/deploy</span>
+                      <span class="chip">/helm</span>
+                      <span class="chip">/monitor</span>
+                    </div>
+                    <div class="kit-meta"><b>Example:</b> <span class="mono">/deploy container-api --namespace prod</span></div>
+                  </div>
+                </a>
               </div>
-              <div class="kit-meta"><b>Example:</b> <span class="mono">/dockerfile .NET 10 Minimal API --prod</span></div>
-            </div>
-          </a>
-
-          <a class="kit-card" data-group="run" href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/docker-swarm-kit" target="_blank" rel="noopener noreferrer">
-            <div class="kit-card-top">
-              <span class="name">docker-swarm-kit</span>
-              <span class="status-pill available"><span class="dot"></span>available</span>
-            </div>
-            <div class="kit-body">
-              <h3>Docker Swarm</h3>
-              <p>Multi-node stacks that stay in Compose syntax — <span class="mono">deploy:</span>, not a new API.</p>
-              <div class="chips">
-                <span class="chip">/stack</span>
-                <span class="chip">/service</span>
-                <span class="chip">/secret</span>
+              <div class="path-strip">
+                <span><b style="color:var(--text)">Path</b></span>
+                <code>docker-kit</code><span class="arrow">→</span>
+                <code>docker-swarm-kit</code><span class="arrow">→</span>
+                <code>k8s-kit</code>
               </div>
-              <div class="kit-meta"><b>Use when</b> you need multi-node without full K8s.</div>
             </div>
-          </a>
+          </div>
 
-          <a class="kit-card" data-group="run" href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/k8s-kit" target="_blank" rel="noopener noreferrer">
-            <div class="kit-card-top">
-              <span class="name">k8s-kit</span>
-              <span class="status-pill available"><span class="dot"></span>available</span>
-            </div>
-            <div class="kit-body">
-              <h3>Kubernetes</h3>
-              <p>Manifests, Helm charts, Prometheus rules — when Swarm primitives run out.</p>
-              <div class="chips">
-                <span class="chip">/deploy</span>
-                <span class="chip">/helm</span>
-                <span class="chip">/monitor</span>
+          <!-- Observe -->
+          <div class="kit-section" data-open="true" data-category="obs" id="sec-obs">
+            <button type="button" class="kit-section-head" aria-expanded="true" aria-controls="body-obs" id="head-obs">
+              <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+              <span class="label">
+                <h3>Observe</h3>
+                <p>Metrics, logs, alerts — Zabbix · ELK · Grafana/Loki</p>
+              </span>
+              <span class="count" data-count-for="obs">3 kits</span>
+            </button>
+            <div class="kit-section-body" id="body-obs" role="region" aria-labelledby="head-obs">
+              <div class="kit-grid">
+                <a class="kit-card" data-group="obs" data-search="zabbix-kit zabbix-check zabbix-trigger host template monitoring problem" href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/zabbix-kit" target="_blank" rel="noopener noreferrer">
+                  <div class="kit-card-top">
+                    <span class="name">zabbix-kit</span>
+                    <span class="status-pill info"><span class="dot"></span>observe</span>
+                  </div>
+                  <div class="kit-body">
+                    <h3>Zabbix</h3>
+                    <p>Hosts, templates, triggers, and read-only problem investigation.</p>
+                    <div class="chips">
+                      <span class="chip">/zabbix</span>
+                      <span class="chip">/zabbix-check</span>
+                      <span class="chip">/zabbix-trigger</span>
+                    </div>
+                    <div class="kit-meta"><b>Brain:</b> <span class="mono">ZABBIX-BRAIN.md</span></div>
+                  </div>
+                </a>
+                <a class="kit-card" data-group="obs" data-search="elk-kit log-check es-query logstash kibana elasticsearch kql full-text" href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/elk-kit" target="_blank" rel="noopener noreferrer">
+                  <div class="kit-card-top">
+                    <span class="name">elk-kit</span>
+                    <span class="status-pill info"><span class="dot"></span>observe</span>
+                  </div>
+                  <div class="kit-body">
+                    <h3>ELK Stack</h3>
+                    <p>Elasticsearch, Logstash, Kibana — first-class log investigation.</p>
+                    <div class="chips">
+                      <span class="chip accent">/log-check</span>
+                      <span class="chip">/es-query</span>
+                      <span class="chip">/logstash</span>
+                    </div>
+                    <div class="kit-meta"><b>Primary log skill</b> for KQL / full-text search.</div>
+                  </div>
+                </a>
+                <a class="kit-card" data-group="obs" data-search="grafana-kit loki-query grafana-dashboard grafana-alert logql prometheus explore" href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/grafana-kit" target="_blank" rel="noopener noreferrer">
+                  <div class="kit-card-top">
+                    <span class="name">grafana-kit</span>
+                    <span class="status-pill info"><span class="dot"></span>observe</span>
+                  </div>
+                  <div class="kit-body">
+                    <h3>Grafana + Loki</h3>
+                    <p>Dashboards, alerts, Explore, and LogQL log checks.</p>
+                    <div class="chips">
+                      <span class="chip accent">/loki-query</span>
+                      <span class="chip">/grafana-dashboard</span>
+                      <span class="chip">/grafana-alert</span>
+                    </div>
+                    <div class="kit-meta"><b>Brain:</b> <span class="mono">GRAFANA-BRAIN.md</span></div>
+                  </div>
+                </a>
               </div>
-              <div class="kit-meta"><b>Example:</b> <span class="mono">/deploy container-api --namespace prod</span></div>
-            </div>
-          </a>
-
-          <a class="kit-card" data-group="obs" href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/zabbix-kit" target="_blank" rel="noopener noreferrer">
-            <div class="kit-card-top">
-              <span class="name">zabbix-kit</span>
-              <span class="status-pill info"><span class="dot"></span>observe</span>
-            </div>
-            <div class="kit-body">
-              <h3>Zabbix</h3>
-              <p>Hosts, templates, triggers, and read-only problem investigation.</p>
-              <div class="chips">
-                <span class="chip">/zabbix</span>
-                <span class="chip">/zabbix-check</span>
-                <span class="chip">/zabbix-trigger</span>
+              <div class="path-strip">
+                <span><b style="color:var(--text)">Logs</b></span>
+                <code>elk-kit /log-check</code>
+                <span class="arrow">·</span>
+                <code>grafana-kit /loki-query</code>
+                <span class="arrow">·</span>
+                <code>zabbix-kit /zabbix-check</code>
               </div>
-              <div class="kit-meta"><b>Brain:</b> <span class="mono">ZABBIX-BRAIN.md</span></div>
             </div>
-          </a>
+          </div>
 
-          <a class="kit-card" data-group="obs" href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/elk-kit" target="_blank" rel="noopener noreferrer">
-            <div class="kit-card-top">
-              <span class="name">elk-kit</span>
-              <span class="status-pill info"><span class="dot"></span>observe</span>
-            </div>
-            <div class="kit-body">
-              <h3>ELK Stack</h3>
-              <p>Elasticsearch, Logstash, Kibana — with a first-class log investigation skill.</p>
-              <div class="chips">
-                <span class="chip accent">/log-check</span>
-                <span class="chip">/es-query</span>
-                <span class="chip">/logstash</span>
+          <!-- Diagrams -->
+          <div class="kit-section" data-open="true" data-category="diagram" id="sec-diagram">
+            <button type="button" class="kit-section-head" aria-expanded="true" aria-controls="body-diagram" id="head-diagram">
+              <span class="chev" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span>
+              <span class="label">
+                <h3>Diagrams</h3>
+                <p>Technical diagrams as editable <span class="mono">.drawio</span> files</p>
+              </span>
+              <span class="count" data-count-for="diagram">1 kit</span>
+            </button>
+            <div class="kit-section-body" id="body-diagram" role="region" aria-labelledby="head-diagram">
+              <div class="kit-grid">
+                <a class="kit-card" data-group="diagram" data-search="drawio-kit architecture flowchart erd diagram draw.io diagrams.net mxgraph" href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/software/drawio-kit" target="_blank" rel="noopener noreferrer">
+                  <div class="kit-card-top">
+                    <span class="name">drawio-kit</span>
+                    <span class="status-pill available"><span class="dot"></span>available</span>
+                  </div>
+                  <div class="kit-body">
+                    <h3>Draw.io diagrams</h3>
+                    <p>Generate editable <span class="mono">.drawio</span> files — architecture, flowcharts, ERD, plus advanced import/export via draw.io CLI.</p>
+                    <div class="chips">
+                      <span class="chip accent">/architecture</span>
+                      <span class="chip">/flowchart</span>
+                      <span class="chip">/erd</span>
+                      <span class="chip accent">/diagram</span>
+                    </div>
+                    <div class="kit-meta"><b>Open on GitHub</b> · brain: <span class="mono">DRAWIO-BRAIN.md</span></div>
+                  </div>
+                </a>
               </div>
-              <div class="kit-meta"><b>Primary log skill</b> for KQL / full-text search.</div>
             </div>
-          </a>
-
-          <a class="kit-card" data-group="obs" href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/devops/grafana-kit" target="_blank" rel="noopener noreferrer">
-            <div class="kit-card-top">
-              <span class="name">grafana-kit</span>
-              <span class="status-pill info"><span class="dot"></span>observe</span>
-            </div>
-            <div class="kit-body">
-              <h3>Grafana + Loki</h3>
-              <p>Dashboards, alerts, Explore, and LogQL log checks.</p>
-              <div class="chips">
-                <span class="chip accent">/loki-query</span>
-                <span class="chip">/grafana-dashboard</span>
-                <span class="chip">/grafana-alert</span>
-              </div>
-              <div class="kit-meta"><b>Brain:</b> <span class="mono">GRAFANA-BRAIN.md</span></div>
-            </div>
-          </a>
-        </div>
-
-        <div class="path-strip">
-          <span><b style="color:var(--text)">Run path</b></span>
-          <code>docker-kit</code><span class="arrow">→</span>
-          <code>docker-swarm-kit</code><span class="arrow">→</span>
-          <code>k8s-kit</code>
-          <span style="opacity:0.5;margin:0 0.35rem;">|</span>
-          <span><b style="color:var(--text)">Logs</b></span>
-          <code>elk-kit /log-check</code>
-          <span class="arrow">·</span>
-          <code>grafana-kit /loki-query</code>
-          <span class="arrow">·</span>
-          <code>zabbix-kit /zabbix-check</code>
-        </div>
-
-        <div class="path-strip" style="margin-top:1rem;">
-          <span><b style="color:var(--text)">Software</b></span>
-          <a href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/software/drawio-kit" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;"><code>drawio-kit</code></a>
-          <span class="arrow">·</span>
-          <span>.drawio architecture · flowchart · ERD · advanced /diagram</span>
-          <span class="arrow">·</span>
-          <a href="https://github.com/KhaiTrang1995/agentic-kits/blob/main/software/drawio-kit/README.md" target="_blank" rel="noopener noreferrer" style="color:var(--accent);font-size:0.82rem;font-weight:600;">README on GitHub</a>
-        </div>
-
-        <div class="kit-grid" style="margin-top:1rem;">
-          <a class="kit-card" data-group="software" href="https://github.com/KhaiTrang1995/agentic-kits/tree/main/software/drawio-kit" target="_blank" rel="noopener noreferrer">
-            <div class="kit-card-top">
-              <span class="name">drawio-kit</span>
-              <span class="status-pill available"><span class="dot"></span>available</span>
-            </div>
-            <div class="kit-body">
-              <h3>Draw.io diagrams</h3>
-              <p>Generate editable <span class="mono">.drawio</span> files — architecture, flowcharts, ERD, plus advanced import/export via draw.io CLI.</p>
-              <div class="chips">
-                <span class="chip accent">/architecture</span>
-                <span class="chip">/flowchart</span>
-                <span class="chip">/erd</span>
-                <span class="chip accent">/diagram</span>
-              </div>
-              <div class="kit-meta"><b>Open on GitHub</b> · brain: <span class="mono">DRAWIO-BRAIN.md</span></div>
-            </div>
-          </a>
+          </div>
         </div>
 
         <div class="pending-card">
-          <span><strong>software/</strong> — more role kits (PM, QA, tech lead, full BA pack) still planned.</span>
-          <span class="status-pill pending"><span class="dot"></span>more soon</span>
+          <span><strong>Coming later</strong> — more software role kits (PM, QA, tech lead, full BA pack).</span>
+          <span class="status-pill pending"><span class="dot"></span>planned</span>
         </div>
       </section>
 
@@ -1176,7 +1680,7 @@ cp -r agentic-kits/devops/docker-kit/_templates/ your-project/_templates/<br>
 
   <footer>
     <div class="wrap foot-row">
-      <span>Licensed <a href="./LICENSE" style="text-decoration:underline;text-underline-offset:2px;">CC BY-NC-SA 4.0</a> — share &amp; adapt, don’t resell. Samples: <b class="mono">.NET 10</b>.</span>
+      <span>Licensed <a href="https://github.com/KhaiTrang1995/agentic-kits/blob/main/LICENSE" target="_blank" rel="noopener noreferrer" style="text-decoration:underline;text-underline-offset:2px;">CC BY-NC-SA 4.0</a> — share &amp; adapt, don’t resell. Samples: <b class="mono">.NET 10</b>.</span>
       <nav class="foot-links" aria-label="Footer">
         <a href="https://github.com/KhaiTrang1995/agentic-kits" target="_blank" rel="noopener noreferrer">GitHub</a>
         <a href="./devops/">devops/</a>
@@ -1185,8 +1689,113 @@ cp -r agentic-kits/devops/docker-kit/_templates/ your-project/_templates/<br>
       </nav>
     </div>
   </footer>
+    </div><!-- /.shell-main -->
+  </div><!-- /.shell -->
 
   <script>
+    (function () {
+      var nav = document.getElementById("sidenav");
+      var toggle = document.getElementById("navToggle");
+      var backdrop = document.getElementById("sidenavBackdrop");
+      function setOpen(open) {
+        document.body.classList.toggle("nav-open", open);
+        nav.classList.toggle("is-open", open);
+        if (backdrop) backdrop.hidden = !open;
+        if (toggle) toggle.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+      if (toggle) toggle.addEventListener("click", function () {
+        setOpen(!document.body.classList.contains("nav-open"));
+      });
+      if (backdrop) backdrop.addEventListener("click", function () { setOpen(false); });
+
+      // Collapsible groups (Browse / Guide / Resources)
+      var groups = Array.prototype.slice.call(nav.querySelectorAll("[data-nav-group]"));
+      groups.forEach(function (g) {
+        var btn = g.querySelector(".sidenav-group-label");
+        if (!btn) return;
+        btn.addEventListener("click", function () {
+          var open = g.getAttribute("data-open") !== "true";
+          g.setAttribute("data-open", open ? "true" : "false");
+          btn.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      });
+
+      // Collapsible kit sublists
+      var items = Array.prototype.slice.call(nav.querySelectorAll("[data-nav-item]"));
+      items.forEach(function (item) {
+        var fold = item.querySelector(".sidenav-fold");
+        if (!fold) return;
+        fold.addEventListener("click", function (e) {
+          e.preventDefault();
+          e.stopPropagation();
+          var open = item.getAttribute("data-open") !== "true";
+          item.setAttribute("data-open", open ? "true" : "false");
+          fold.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      });
+
+      function setAllNav(open) {
+        groups.forEach(function (g) {
+          g.setAttribute("data-open", open ? "true" : "false");
+          var btn = g.querySelector(".sidenav-group-label");
+          if (btn) btn.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+        items.forEach(function (item) {
+          item.setAttribute("data-open", open ? "true" : "false");
+          var fold = item.querySelector(".sidenav-fold");
+          if (fold) fold.setAttribute("aria-expanded", open ? "true" : "false");
+        });
+      }
+      var navExpand = document.getElementById("navExpandAll");
+      var navCollapse = document.getElementById("navCollapseAll");
+      if (navExpand) navExpand.addEventListener("click", function () { setAllNav(true); });
+      if (navCollapse) navCollapse.addEventListener("click", function () { setAllNav(false); });
+
+      nav.querySelectorAll("a[href^='#']").forEach(function (a) {
+        a.addEventListener("click", function () {
+          if (window.matchMedia("(max-width: 980px)").matches) setOpen(false);
+          var sec = a.getAttribute("data-open-section");
+          if (sec) {
+            var el = document.getElementById(sec);
+            if (el) {
+              el.setAttribute("data-open", "true");
+              var head = el.querySelector(".kit-section-head");
+              if (head) head.setAttribute("aria-expanded", "true");
+            }
+            // also expand matching sidenav item
+            var parentItem = a.closest("[data-nav-item]");
+            if (parentItem) {
+              parentItem.setAttribute("data-open", "true");
+              var f = parentItem.querySelector(".sidenav-fold");
+              if (f) f.setAttribute("aria-expanded", "true");
+            }
+            var parentGroup = a.closest("[data-nav-group]");
+            if (parentGroup) {
+              parentGroup.setAttribute("data-open", "true");
+              var gb = parentGroup.querySelector(".sidenav-group-label");
+              if (gb) gb.setAttribute("aria-expanded", "true");
+            }
+          }
+        });
+      });
+      // Active link on scroll
+      var navLinks = Array.prototype.slice.call(nav.querySelectorAll("a[data-nav]"));
+      var targets = navLinks.map(function (a) {
+        return { a: a, el: document.getElementById(a.getAttribute("data-nav")) };
+      }).filter(function (t) { return t.el; });
+      function syncActive() {
+        var y = window.scrollY + 120;
+        var current = targets[0];
+        targets.forEach(function (t) {
+          if (t.el.offsetTop <= y) current = t;
+        });
+        navLinks.forEach(function (a) { a.classList.remove("active"); });
+        if (current) current.a.classList.add("active");
+      }
+      window.addEventListener("scroll", syncActive, { passive: true });
+      syncActive();
+    })();
+
     (function () {
       var root = document.documentElement;
       var saved = localStorage.getItem("kit-theme");
@@ -1214,18 +1823,96 @@ cp -r agentic-kits/devops/docker-kit/_templates/ your-project/_templates/<br>
     })();
 
     (function () {
-      var tabs = document.querySelectorAll(".tab");
-      var cards = document.querySelectorAll(".kit-card");
-      tabs.forEach(function (tab) {
-        tab.addEventListener("click", function () {
-          var filter = tab.getAttribute("data-filter");
-          tabs.forEach(function (t) { t.setAttribute("aria-selected", t === tab ? "true" : "false"); });
-          cards.forEach(function (card) {
-            var group = card.getAttribute("data-group");
-            card.hidden = filter !== "all" && group !== filter;
-          });
+      var search = document.getElementById("kitSearch");
+      var meta = document.getElementById("searchMeta");
+      var visibleEl = document.getElementById("visibleCount");
+      var empty = document.getElementById("emptySearch");
+      var sections = Array.prototype.slice.call(document.querySelectorAll(".kit-section"));
+      var total = document.querySelectorAll(".kit-card").length;
+
+      function setOpen(section, open) {
+        section.setAttribute("data-open", open ? "true" : "false");
+        var head = section.querySelector(".kit-section-head");
+        if (head) head.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+
+      sections.forEach(function (section) {
+        var head = section.querySelector(".kit-section-head");
+        if (!head) return;
+        head.addEventListener("click", function () {
+          var open = section.getAttribute("data-open") !== "true";
+          setOpen(section, open);
         });
       });
+
+      document.getElementById("expandAll").addEventListener("click", function () {
+        sections.forEach(function (s) { if (!s.hidden) setOpen(s, true); });
+      });
+      document.getElementById("collapseAll").addEventListener("click", function () {
+        sections.forEach(function (s) { setOpen(s, false); });
+      });
+      document.getElementById("clearSearch").addEventListener("click", function () {
+        search.value = "";
+        applySearch("");
+        search.focus();
+      });
+
+      function applySearch(q) {
+        q = (q || "").trim().toLowerCase();
+        var visible = 0;
+
+        sections.forEach(function (section) {
+          var cards = section.querySelectorAll(".kit-card");
+          var showSection = false;
+          var matchCount = 0;
+
+          cards.forEach(function (card) {
+            var hay = (
+              (card.getAttribute("data-search") || "") + " " +
+              (card.textContent || "")
+            ).toLowerCase();
+            var match = !q || hay.indexOf(q) !== -1;
+            card.hidden = !match;
+            if (match) {
+              showSection = true;
+              matchCount += 1;
+              visible += 1;
+            }
+          });
+
+          section.hidden = !showSection;
+          var countEl = section.querySelector(".count");
+          if (countEl) {
+            countEl.textContent = matchCount + (matchCount === 1 ? " kit" : " kits");
+          }
+          // Auto-expand sections that still have matches while searching
+          if (q && showSection) setOpen(section, true);
+        });
+
+        if (visibleEl) visibleEl.textContent = String(visible);
+        if (meta) {
+          meta.innerHTML = "<strong>" + visible + "</strong> / " + total + " kits" +
+            (q ? " · filter: <code class=\"mono\">" + q.replace(/</g, "&lt;") + "</code>" : "");
+        }
+        if (empty) empty.classList.toggle("visible", visible === 0);
+      }
+
+      var t = null;
+      search.addEventListener("input", function () {
+        clearTimeout(t);
+        var val = search.value;
+        t = setTimeout(function () { applySearch(val); }, 120);
+      });
+
+      // Deep-link: #kits?q=log-check
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var q0 = params.get("q");
+        if (q0) {
+          search.value = q0;
+          applySearch(q0);
+        }
+      } catch (e) { /* ignore */ }
     })();
 
     (function () {
