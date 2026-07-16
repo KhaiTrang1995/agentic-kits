@@ -25,7 +25,7 @@ Prompting an agent to "write me a Dockerfile" gets you *a* Dockerfile — not ne
 | Category | Status | Kits |
 |----------|--------|------|
 | [devops](./devops/) | ✅ Available | **Run:** `docker-kit`, `docker-swarm-kit`, `k8s-kit` · **Observe:** `zabbix-kit`, `elk-kit` (`/log-check`), `grafana-kit` (`/loki-query`) |
-| [software](./software/) | 🚧 Coming soon | BA / PM / dev / QA role kits |
+| [software](./software/) | ✅ Partial | **[drawio-kit](./software/drawio-kit/)** — `.drawio` architecture / flowchart / ERD / advanced diagram · more role kits TBD |
 
 ### DevOps at a glance
 
@@ -45,6 +45,12 @@ Elasticsearch / Kibana  →  elk-kit      /log-check
 Loki / Grafana          →  grafana-kit  /loki-query
 Zabbix problem / log item → zabbix-kit  /zabbix-check
 ```
+
+### Software at a glance
+
+| Kit | Skills (highlight) |
+|-----|--------------------|
+| [drawio-kit](./software/drawio-kit/) | `/architecture`, `/flowchart`, `/erd`, `/diagram` (draw.io CLI for advanced) |
 
 ## Quick start
 
@@ -120,5 +126,6 @@ bundle exec jekyll serve
 ## Roadmap
 
 - [x] Observability kits — Zabbix, ELK (`/log-check`), Grafana/Loki (`/loki-query`)
-- [ ] `software/` category — BA, PM, dev (per-stack), QA, tech lead kits
+- [x] `software/drawio-kit` — technical diagrams as `.drawio`
+- [ ] More `software/` kits — BA, PM, dev (per-stack), QA, tech lead
 - [ ] Cross-kit index / search once the kit count grows past a handful per category

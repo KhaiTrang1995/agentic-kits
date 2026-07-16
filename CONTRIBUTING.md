@@ -74,7 +74,7 @@ Every kit should follow this shape:
 | Path | Purpose |
 |------|---------|
 | `devops/` | Container, orchestration, observability kits + docs UI |
-| `software/` | Future role kits (placeholder) |
+| `software/` | Craft/role kits (e.g. `drawio-kit`) |
 | `index.html`, `devops/index.html` | GitHub Pages docs |
 | `_config.yml`, `Gemfile`, `.github/workflows/pages.yml` | Jekyll / Pages |
 | `share-untrack/` | **Local only** (gitignored)—not for PRs |
