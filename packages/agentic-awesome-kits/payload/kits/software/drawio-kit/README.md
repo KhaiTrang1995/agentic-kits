@@ -1,25 +1,25 @@
-﻿# Draw.io Kit â€” TechSphereX AI
+# Draw.io Kit — TechSphereX AI
 
-> Bá»™ AI Skill Kit sinh sÆ¡ Ä‘á»“ **`.drawio`** (diagrams.net): kiáº¿n trÃºc, flowchart, ERD dá»±ng tay, vÃ  skill `/diagram` nÃ¢ng cao (tÃ­ch há»£p [drawio-skill](https://github.com/Agents365-ai/drawio-skill) MIT â€” scripts, shape index, style presets).
+> AI Skill Kit for generating **`.drawio`** diagrams (diagrams.net): hand-authored architecture, flowchart, and ERD, plus an advanced `/diagram` skill (integrates [drawio-skill](https://github.com/Agents365-ai/drawio-skill) MIT — scripts, shape index, style presets).
 
 ## Skills
 
-| Skill | Khi dÃ¹ng | CLI draw.io? |
-|-------|----------|--------------|
-| `/architecture` | Client â†’ gateway â†’ services â†’ DB / external | KhÃ´ng |
-| `/flowchart` | Quy trÃ¬nh start / process / decision / end | KhÃ´ng |
-| `/erd` | Entityâ€“relationship (mÃ´ táº£ hoáº·c gá»£i Ã½ tá»« SQL) | KhÃ´ng (SQL phá»©c táº¡p â†’ `/diagram`) |
-| `/diagram` | Sequence, C4, UML, import code/IaC/SQL/OpenAPI, shape 10k+, export PNG/SVG/PDF | **CÃ³** (desktop â‰¥ v30) |
+| Skill | When to use | draw.io CLI? |
+|-------|-------------|--------------|
+| `/architecture` | Client → gateway → services → DB / external | No |
+| `/flowchart` | Process start / process / decision / end | No |
+| `/erd` | Entity–relationship (description or SQL hint) | No (complex SQL → `/diagram`) |
+| `/diagram` | Sequence, C4, UML, import code/IaC/SQL/OpenAPI, 10k+ shapes, export PNG/SVG/PDF | **Yes** (desktop ≥ v30) |
 
 ## Brain
 
-Äá»c **`DRAWIO-BRAIN.md`** â€” skill map, anti-pattern, prereq.
+Read **`DRAWIO-BRAIN.md`** — skill map, anti-patterns, prerequisites.
 
 ## Rules
 
-- `drawio-conventions.md` â€” XML, core shapes, TechSphereX AI palette, grid, edges, paths
-- `naming-conventions.md` â€” file/slug/path
-- `approval-gate.md` â€” L3 layout â†’ L1 write â†’ L2 diff
+- `drawio-conventions.md` — XML, core shapes, TechSphereX AI palette, grid, edges, paths
+- `naming-conventions.md` — file/slug/path
+- `approval-gate.md` — L3 layout → L1 write → L2 diff
 
 ## Templates
 
@@ -31,18 +31,18 @@
 
 ## Assets (`/diagram`)
 
-| Path | Ná»™i dung |
+| Path | Contents |
 |------|----------|
 | `scripts/` | 28 Python scripts (upstream drawio-skill) |
-| `references/` | toolbox, xml-authoring, styles, â€¦ |
+| `references/` | toolbox, xml-authoring, styles, … |
 | `styles/` | built-in presets |
 | `data/` | shape-index + lobe icons |
 | `LICENSE-drawio-skill` | MIT upstream |
 
-## CÃ i Ä‘áº·t
+## Install
 
 ```bash
-# From this repo â€” skills + rules + templates (architecture / flowchart / erd)
+# From this repo — skills + rules + templates (architecture / flowchart / erd)
 cp -r kits/software/drawio-kit/.claude/ your-project/.claude/
 cp -r kits/software/drawio-kit/_templates/ your-project/_templates/
 
@@ -62,30 +62,30 @@ docs/diagrams/{feature}/erd-{slug}.drawio
 docs/diagrams/{feature}/{type}-{slug}.drawio   # /diagram
 ```
 
-## VÃ­ dá»¥
+## Examples
 
 ```text
-/architecture TOPO: Angular â†’ API Gateway â†’ Booking/Auth â†’ SQL Server
-/flowchart duyá»‡t nghá»‰ phÃ©p: NV ná»™p â†’ QL duyá»‡t â†’ HR â†’ xÃ¡c nháº­n
-/erd Order, OrderLine, Customer, Payment â€” 1-N Order-OrderLine
+/architecture TOPO: Angular → API Gateway → Booking/Auth → SQL Server
+/flowchart leave request: employee submits → manager approves → HR → confirm
+/erd Order, OrderLine, Customer, Payment — 1-N Order-OrderLine
 /diagram --type sequence OAuth login Client, Auth, Resource
 /diagram --from-sql @schema.sql --type erd
 ```
 
-## MÃ´i trÆ°á»ng (tham chiáº¿u)
+## Environment (reference)
 
 - draw.io desktop CLI: v30+ (export / Mermaid / ELK)
-- Graphviz: optional cho `autolayout.py`
+- Graphviz: optional for `autolayout.py`
 - Python 3: scripts
 
-## LiÃªn quan
+## Related
 
-| Kit / package | KhÃ¡c gÃ¬ |
-|---------------|---------|
-| `diagram-skills-kit` (BA Mermaid/PlantUML/D2) | KhÃ´ng pháº£i `.drawio` |
-| Upstream [drawio-skill](https://github.com/Agents365-ai/drawio-skill) | Nguá»“n scripts; kit nÃ y bá»c skill + TechSphereX AI rules |
+| Kit / package | How it differs |
+|---------------|----------------|
+| `diagram-skills-kit` (BA Mermaid/PlantUML/D2) | Not `.drawio` |
+| Upstream [drawio-skill](https://github.com/Agents365-ai/drawio-skill) | Source of scripts; this kit wraps skills + TechSphereX AI rules |
 
 ## License
 
-- Skills/rules/templates TechSphereX AI: theo repo chá»§
-- `scripts/`, `data/`, `styles/`, `references/` (pháº§n upstream): **MIT** â€” xem `LICENSE-drawio-skill`
+- TechSphereX AI skills/rules/templates: per parent repo
+- `scripts/`, `data/`, `styles/`, `references/` (upstream portions): **MIT** — see `LICENSE-drawio-skill`

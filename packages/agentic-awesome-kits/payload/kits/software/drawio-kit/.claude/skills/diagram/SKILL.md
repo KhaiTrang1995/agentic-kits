@@ -1,154 +1,154 @@
 ---
 name: diagram
-description: Sinh mọi loại sơ đồ .drawio nâng cao (ERD, UML class/sequence, C4 model, ML/DL, mindmap/gantt/timeline qua Mermaid, kiến trúc phức tạp) — kể cả sinh từ code có sẵn (Python/JS/Go/Rust), từ hạ tầng IaC (Terraform/Kubernetes/docker-compose, hoặc hạ tầng đang chạy thật), từ SQL DDL, hoặc từ OpenAPI spec. Có shape search 10.000+ icon chuẩn (AWS/Azure/GCP/Cisco/K8s/UML/BPMN), style preset, xuất PNG/SVG/PDF/JPG qua draw.io desktop CLI kèm tự kiểm tra bằng vision. Dùng khi `/architecture` hoặc `/flowchart` (dựng tay XML, không phụ thuộc CLI) không đủ — cần độ chính xác cao, icon hãng cụ thể, auto-layout cho sơ đồ lớn, import từ code/hạ tầng thật, hoặc xuất ảnh.
+description: Generate advanced .drawio diagrams (ERD, UML class/sequence, C4 model, ML/DL, mindmap/gantt/timeline via Mermaid, complex architecture) — including from existing code (Python/JS/Go/Rust), IaC (Terraform/Kubernetes/docker-compose, or live running infra), SQL DDL, or OpenAPI specs. Includes shape search across 10,000+ standard icons (AWS/Azure/GCP/Cisco/K8s/UML/BPMN), style presets, and PNG/SVG/PDF/JPG export via draw.io desktop CLI with vision self-check. Use when `/architecture` or `/flowchart` (hand-authored XML, no CLI dependency) is not enough — need high accuracy, vendor-specific icons, auto-layout for large diagrams, import from real code/infra, or image export.
 allowed-tools: Read, Write, Edit, Bash, Glob, Grep
 user-invocable: true
-argument-hint: "<mô tả sơ đồ> [--type erd|uml|sequence|c4|architecture|ml|flowchart|mermaid] [--from-code <path>] [--from-sql <file>] [--from-iac <path>] [--style <preset>] [--export png|svg|pdf|jpg]"
+argument-hint: "<diagram description> [--type erd|uml|sequence|c4|architecture|ml|flowchart|mermaid] [--from-code <path>] [--from-sql <file>] [--from-iac <path>] [--style <preset>] [--export png|svg|pdf|jpg]"
 ---
 
-# /diagram — Sơ đồ draw.io toàn năng (tích hợp drawio-skill)
+# /diagram — Full-power draw.io diagrams (drawio-skill integration)
 
-## Nguồn gốc & Bản quyền
+## Origin & license
 
-Skill này đóng gói lại phần lớn năng lực của [drawio-skill](https://github.com/Agents365-ai/drawio-skill) (MIT License © Agents365-ai) — 28 script Python, shape search 10.000+ icon, hệ thống style preset, quy trình tự kiểm tra bằng vision. File `scripts/`, `references/`, `styles/`, `data/` ở root kit là bản sao gần như nguyên vẹn từ dự án gốc — **KHÔNG sửa logic bên trong các script**, chỉ gọi qua Bash. Giấy phép gốc giữ nguyên ở `LICENSE-drawio-skill`.
+This skill packages most of the capability of [drawio-skill](https://github.com/Agents365-ai/drawio-skill) (MIT License © Agents365-ai) — 28 Python scripts, shape search across 10,000+ icons, style-preset system, vision self-check workflow. The kit-root `scripts/`, `references/`, `styles/`, and `data/` trees are near-verbatim copies of upstream — **do NOT modify script internals**; invoke them via Bash only. Original license is preserved in `LICENSE-drawio-skill`.
 
-**Khác biệt so với hành vi gốc** (để khớp house convention TechSphereX AI):
-- Ngôn ngữ giao tiếp: tiếng Việt.
-- Approval: dùng `approval-gate.md` (L1/L2/L3) của kit này thay vì review-loop tự do của bản gốc — về bản chất tương đương (L3 ≈ self-check + review loop gốc, L1 ≈ bước "Plan" trước ghi file, L2 ≈ diff khi sửa file `.drawio` đã có).
-- Style mặc định: **TechSphereX AI palette** (`drawio-conventions.md`) — KHÔNG phải preset `default` gốc — trừ khi user nêu tên preset khác hoặc đã đặt preset default riêng.
-- Output path: `docs/diagrams/{feature}/{diagram-type}-{slug}.drawio` (theo `drawio-conventions.md` mục 7), không phải thư mục làm việc hiện tại.
-- **Không tự động xuất ảnh** — mặc định chỉ ghi `.drawio` (theo rule "KHÔNG xuất ảnh tĩnh trừ khi user yêu cầu riêng" của `drawio-conventions.md`). Chỉ xuất PNG draft nội bộ khi cần bước tự-kiểm-tra bằng vision cho sơ đồ phức tạp, và luôn nói rõ với user đây là bước tạm.
+**Differences from upstream behavior** (to match TechSphereX AI house conventions):
+- Communication language: English (match project / user language if they write in another language).
+- Approval: use this kit’s `approval-gate.md` (L1/L2/L3) instead of upstream’s free-form review loop — essentially equivalent (L3 ≈ upstream self-check + review loop, L1 ≈ “Plan” before writing files, L2 ≈ diff when editing an existing `.drawio`).
+- Default style: **TechSphereX AI palette** (`drawio-conventions.md`) — NOT the upstream `default` preset — unless the user names another preset or has set a personal default.
+- Output path: `docs/diagrams/{feature}/{diagram-type}-{slug}.drawio` (per `drawio-conventions.md` section 7), not the current working directory.
+- **No automatic image export** — default is write `.drawio` only (per “do NOT export static images unless the user explicitly asks” in `drawio-conventions.md`). Export a temporary PNG draft only when vision self-check is needed for a complex diagram, and always tell the user it is temporary.
 
-## Khi nào dùng `/diagram` thay vì `/architecture` / `/flowchart`
+## When to use `/diagram` instead of `/architecture` / `/flowchart`
 
-| Cần gì | Dùng skill nào |
+| Need | Use which skill |
 |---|---|
-| Kiến trúc/flowchart đơn giản, không cần export ảnh, không phụ thuộc draw.io CLI | `/architecture`, `/flowchart` |
-| ERD từ SQL DDL, sequence diagram, C4 model, class diagram UML | `/diagram --type erd\|sequence\|c4\|uml` |
-| Vẽ lại cấu trúc 1 codebase (Python/JS/Go/Rust) hoặc hạ tầng IaC/hạ tầng đang chạy thật | `/diagram --from-code` / `--from-iac` |
-| Icon hãng cụ thể (AWS Lambda thật, K8s pod thật...) thay vì hình chữ nhật chung chung | `/diagram` (dùng `shapesearch.py`) |
-| Sơ đồ > 15 node cần auto-layout thay vì đặt tay toạ độ | `/diagram` (dùng `autolayout.py` hoặc `--layout` ELK của CLI) |
-| Xuất PNG/SVG/PDF, cần tự kiểm tra bằng vision trước khi giao | `/diagram` |
-| Học/áp style riêng (màu, font, shape) từ 1 file/ảnh có sẵn | `/diagram` (Learn flow, xem `references/style-presets.md`) |
+| Simple architecture/flowchart, no image export, no draw.io CLI dependency | `/architecture`, `/flowchart` |
+| ERD from SQL DDL, sequence diagram, C4 model, UML class diagram | `/diagram --type erd\|sequence\|c4\|uml` |
+| Reconstruct structure of a codebase (Python/JS/Go/Rust) or IaC / live running infra | `/diagram --from-code` / `--from-iac` |
+| Vendor-specific icons (real AWS Lambda, real K8s pod, …) instead of generic rectangles | `/diagram` (use `shapesearch.py`) |
+| Diagrams > 15 nodes needing auto-layout instead of hand-placed coordinates | `/diagram` (`autolayout.py` or CLI `--layout` ELK) |
+| Export PNG/SVG/PDF, vision self-check before delivery | `/diagram` |
+| Learn/apply a custom style (colors, fonts, shapes) from an existing file/image | `/diagram` (Learn flow — see `references/style-presets.md`) |
 
-## Prerequisites (đã xác nhận trên máy này)
+## Prerequisites (confirm on this machine)
 
-- **draw.io desktop CLI:** đã cài, **v30.2.6** tại `C:\Program Files\draw.io\draw.io.exe` — đủ điều kiện dùng Mermaid→`.drawio` conversion và `--layout` ELK (cả hai chỉ có từ v30).
-- **Graphviz (`dot`):** chưa cài — `scripts/autolayout.py` cần Graphviz để tính layout. Thiếu thì dùng `--layout` ELK có sẵn trong CLI thay thế (xem `references/autolayout.md`), hoặc báo user cài `graphviz` nếu muốn dùng đúng `autolayout.py`.
-- Luôn resolve đường dẫn binary thật trước khi chạy lệnh xuất ảnh — trên máy này dùng `"C:\Program Files\draw.io\draw.io.exe"` (KHÔNG phải lệnh `drawio` trần vì chưa chắc có trong PATH).
+- **draw.io desktop CLI:** installed, **v30.2.6** at `C:\Program Files\draw.io\draw.io.exe` — supports Mermaid→`.drawio` conversion and `--layout` ELK (both require v30+).
+- **Graphviz (`dot`):** may be missing — `scripts/autolayout.py` needs Graphviz for layout. If missing, use CLI `--layout` ELK instead (see `references/autolayout.md`), or tell the user to install `graphviz` if they want `autolayout.py` specifically.
+- Always resolve the real binary path before export commands — on this machine use `"C:\Program Files\draw.io\draw.io.exe"` (NOT bare `drawio`, which may not be on PATH).
 
 ## Input examples
 
 ```
-/diagram kiến trúc microservices: API Gateway, Auth/Order/Payment service, Kafka, Postgres, Redis
+/diagram microservices architecture: API Gateway, Auth/Order/Payment service, Kafka, Postgres, Redis
 /diagram --type erd @schema.sql
-/diagram --type sequence luồng đăng nhập OAuth: Client, Auth Server, Resource Server
-/diagram --type c4 hệ thống TOPO (Context → Container → Component)
-/diagram --from-code ./src --lang python --group          # sơ đồ import graph
-/diagram --from-iac ./infra --lang terraform               # kiến trúc từ Terraform, icon cloud thật
-/diagram vẽ lại kiến trúc container hiện có với style "corporate"
-/diagram học style từ @docs/diagrams/container/architecture-overview.drawio đặt tên "TechSphereX AI-brand"
-/diagram xuất docs/diagrams/topo/architecture-overview.drawio ra PNG
+/diagram --type sequence OAuth login flow: Client, Auth Server, Resource Server
+/diagram --type c4 TOPO system (Context → Container → Component)
+/diagram --from-code ./src --lang python --group          # import graph diagram
+/diagram --from-iac ./infra --lang terraform               # architecture from Terraform, real cloud icons
+/diagram redraw existing container architecture with style "corporate"
+/diagram learn style from @docs/diagrams/container/architecture-overview.drawio name it "TechSphereX AI-brand"
+/diagram export docs/diagrams/topo/architecture-overview.drawio to PNG
 ```
 
-## Quy trình
+## Workflow
 
-### Bước 0 — Resolve style preset
+### Step 0 — Resolve style preset
 
-Theo `references/style-presets.md`:
-1. Quét câu user tìm tên preset rõ ràng ("dùng style X", "theo phong cách X"). Cụm `với X` không tính nếu X là tên component, không phải style.
-2. Không có → kiểm tra có preset nào user đã đặt `"default": true` chưa (lưu ở `~/.drawio-skill/styles/` theo thiết kế gốc, hoặc thư mục tương đương trong project nếu user không có home directory dùng chung).
-3. Không có preset nào → **mặc định dùng TechSphereX AI palette** (`drawio-conventions.md` mục 2-6), KHÔNG dùng preset `default.json` gốc của drawio-skill trừ khi user gọi đích danh `--style default`.
-4. Preset hợp lệ → nạp từ `styles/built-in/<name>.json` (built-in: `default`, `corporate`, `handdrawn`, `colorblind-safe`, `dark`) hoặc file user tự lưu. Tên preset không tồn tại → báo lỗi, liệt kê preset có sẵn, KHÔNG âm thầm rơi về mặc định.
+Per `references/style-presets.md`:
+1. Scan the user request for an explicit preset name (“use style X”, “in the X look”). The phrase `with X` does not count if X is a component name, not a style.
+2. If none → check whether the user has set any preset `"default": true` (stored under `~/.drawio-skill/styles/` per upstream design, or an equivalent project directory if there is no shared home).
+3. If none → **default to the TechSphereX AI palette** (`drawio-conventions.md` sections 2–6). Do NOT use drawio-skill’s built-in `default.json` unless the user explicitly passes `--style default`.
+4. Valid preset → load from `styles/built-in/<name>.json` (built-ins: `default`, `corporate`, `handdrawn`, `colorblind-safe`, `dark`) or a user-saved file. Unknown preset name → report error, list available presets, do NOT silently fall back.
 
-### Bước 1 — Xác định loại sơ đồ & làm rõ yêu cầu
+### Step 1 — Determine diagram type & clarify requirements
 
-Nếu thiếu thông tin quan trọng, hỏi tối đa 1-3 câu:
-- **Loại sơ đồ** — xem `references/diagram-types.md` để map theo cách user diễn đạt (ERD/UML/Sequence/Architecture/ML/Flowchart/C4).
-- **Nguồn dữ liệu** — mô tả bằng lời, hay từ code/SQL/IaC/OpenAPI có sẵn?
-- **Có cần xuất ảnh không** — mặc định KHÔNG (chỉ `.drawio`), hỏi rõ nếu user không nêu.
+If important information is missing, ask at most 1–3 questions:
+- **Diagram type** — see `references/diagram-types.md` to map the user’s wording (ERD/UML/Sequence/Architecture/ML/Flowchart/C4).
+- **Data source** — free-form description, or existing code/SQL/IaC/OpenAPI?
+- **Image export needed?** — default NO (`.drawio` only); ask if the user did not specify.
 
-Bỏ qua hỏi nếu request đã đủ rõ ràng.
+Skip questions when the request is already clear enough.
 
-**Chọn cách sinh XML** (rút gọn từ `references/toolbox.md`):
+**Choose how to produce XML** (condensed from `references/toolbox.md`):
 
-| User có gì | Dùng gì |
+| User has | Use |
 |---|---|
-| Mô tả bằng lời, loại chuẩn không cần style riêng, CLI ≥ v30 | Viết `.mmd` (Mermaid) → convert bằng CLI (xem `references/mermaid-authoring.md`) |
-| Mô tả cần style/icon riêng, số node vừa phải (≤ 15) | Viết tay XML — đọc `references/xml-authoring.md` trước |
-| Sơ đồ lớn/nhiều node, cần đặt toạ độ tự động | `scripts/autolayout.py graph.json -o out.drawio` (cần Graphviz) hoặc CLI `--layout` |
-| Project Python/JS/Go/Rust | `scripts/pyimports.py` / `jsimports.py` / `goimports.py` / `rustimports.py` (`--group` để đóng khung theo package) |
-| Class hierarchy Python | `scripts/pyclasses.py` |
-| Terraform / Kubernetes / docker-compose (khai báo) | `scripts/tfimports.py` / `k8simports.py` / `composeimports.py` — icon cloud chính thức tự resolve |
-| Hạ tầng đang CHẠY THẬT | `terraform show -json` → `scripts/tfstate.py`; `docker inspect $(docker ps -q)` → `scripts/dockerimports.py`; `kubectl get ... -o json` → `scripts/k8simports.py` (xem `references/live-infra.md`) |
+| Free-form description, standard type, no custom style, CLI ≥ v30 | Write `.mmd` (Mermaid) → convert with CLI (see `references/mermaid-authoring.md`) |
+| Description needs custom style/icons, moderate node count (≤ 15) | Hand-author XML — read `references/xml-authoring.md` first |
+| Large diagram / many nodes, need automatic coordinates | `scripts/autolayout.py graph.json -o out.drawio` (needs Graphviz) or CLI `--layout` |
+| Python/JS/Go/Rust project | `scripts/pyimports.py` / `jsimports.py` / `goimports.py` / `rustimports.py` (`--group` to frame by package) |
+| Python class hierarchy | `scripts/pyclasses.py` |
+| Terraform / Kubernetes / docker-compose (declared) | `scripts/tfimports.py` / `k8simports.py` / `composeimports.py` — official cloud icons auto-resolve |
+| Infra that is LIVE / RUNNING | `terraform show -json` → `scripts/tfstate.py`; `docker inspect $(docker ps -q)` → `scripts/dockerimports.py`; `kubectl get ... -o json` → `scripts/k8simports.py` (see `references/live-infra.md`) |
 | SQL DDL (`CREATE TABLE`) | `scripts/sqlerd.py schema.sql -o out.drawio` |
-| OpenAPI/Swagger spec | `scripts/openapiimports.py spec.yaml -o graph.json` (màu theo HTTP method) |
-| Sequence diagram (participants + messages) | `scripts/seqlayout.py seq.json -o out.drawio` (không cần Graphviz, tính toán lifeline/activation xác định) |
-| C4 model (Context→Container→Component) | `scripts/c4.py c4.json -o out.drawio` (multi-page, có link drill-down) |
-| Cần icon hãng cụ thể (AWS/Azure/GCP/Cisco/K8s/UML/BPMN) | `scripts/shapesearch.py "<từ khoá>"` để lấy đúng `style=` — KHÔNG đoán |
-| Cần logo brand AI/LLM (OpenAI, Claude, Gemini...) | `scripts/aiicons.py "<brand>"` |
+| OpenAPI/Swagger spec | `scripts/openapiimports.py spec.yaml -o graph.json` (color by HTTP method) |
+| Sequence diagram (participants + messages) | `scripts/seqlayout.py seq.json -o out.drawio` (no Graphviz; deterministic lifeline/activation) |
+| C4 model (Context→Container→Component) | `scripts/c4.py c4.json -o out.drawio` (multi-page, drill-down links) |
+| Vendor-specific icons (AWS/Azure/GCP/Cisco/K8s/UML/BPMN) | `scripts/shapesearch.py "<keywords>"` for exact `style=` — do NOT guess |
+| AI/LLM brand logos (OpenAI, Claude, Gemini…) | `scripts/aiicons.py "<brand>"` |
 
-### Bước 2 — L3 Preview (theo `approval-gate.md`)
+### Step 2 — L3 Preview (per `approval-gate.md`)
 
-- **Sơ đồ dựng tay/nhỏ:** liệt kê node/edge dạng bảng (giống `/architecture`, `/flowchart`) để user duyệt bố cục trước khi sinh XML đầy đủ.
-- **Sơ đồ sinh từ script (autolayout/importer/sqlerd/seqlayout/c4):**
-  1. Chạy script sinh `.drawio`.
-  2. Chạy `scripts/validate.py <file>.drawio` — lint cấu trúc (dangling edge, id trùng, cell overlap) trước khi xuất ảnh.
-  3. Nếu cần xem trước: xuất PNG draft (**không** `-e`, `--width 2000` để không vượt giới hạn 2576px của vision API) — nói rõ với user đây là ảnh tạm để duyệt, chưa phải file cuối.
-  4. Nếu model có vision: tự đọc PNG, so với bảng lỗi thường gặp (chồng shape, nhãn bị cắt, mũi tên không nối, node lệch khung, edge chồng nhau) — tối đa 2 vòng tự sửa.
-  5. Hiện ảnh cho user, hỏi Đồng ý / Sửa: ... / Hủy. Sửa đơn lẻ (đổi màu, thêm/xoá node, đổi label) → sửa trực tiếp XML, giữ layout. Sửa toàn bộ hướng/layout → sinh lại từ đầu.
-  6. Tối đa 5 vòng lặp — sau đó đề xuất user tự mở file trong draw.io desktop để tinh chỉnh tay.
+- **Hand-authored / small diagrams:** list nodes/edges as a table (like `/architecture`, `/flowchart`) so the user reviews layout before full XML.
+- **Script-generated diagrams (autolayout/importer/sqlerd/seqlayout/c4):**
+  1. Run the script to produce `.drawio`.
+  2. Run `scripts/validate.py <file>.drawio` — structural lint (dangling edges, duplicate ids, cell overlap) before any image export.
+  3. If a preview is needed: export a PNG draft (**without** `-e`, `--width 2000` so it stays under the vision API’s 2576px limit) — tell the user this is a temporary review image, not the final deliverable.
+  4. If the model has vision: read the PNG and check against common defects (overlapping shapes, clipped labels, unconnected arrows, nodes outside the page, crossing edges) — at most 2 self-fix rounds.
+  5. Show the image to the user; ask Approve / Edit: … / Cancel. Localized edits (color, add/remove node, rename label) → edit XML in place, keep layout. Full direction/layout changes → regenerate from scratch.
+  6. At most 5 review loops — then suggest the user open the file in draw.io desktop for manual polish.
 
-### Bước 3 — L1 Approval → Write
+### Step 3 — L1 Approval → Write
 
-Ghi `.drawio` vào `docs/diagrams/{feature}/{diagram-type}-{slug}.drawio`. Nếu file đã tồn tại → L2 diff trước khi ghi đè.
+Write `.drawio` to `docs/diagrams/{feature}/{diagram-type}-{slug}.drawio`. If the file already exists → L2 diff before overwrite.
 
-### Bước 4 — Export (chỉ khi user yêu cầu hoặc dùng `--export`)
+### Step 4 — Export (only when the user asks or passes `--export`)
 
-Dùng binary đã xác nhận (`"C:\Program Files\draw.io\draw.io.exe"` trên máy này):
+Use the confirmed binary (`"C:\Program Files\draw.io\draw.io.exe"` on this machine):
 
 ```bash
-# Preview / self-check (Bước 2) — KHÔNG -e
+# Preview / self-check (Step 2) — NO -e
 "C:\Program Files\draw.io\draw.io.exe" -x -f png --width 2000 -o preview.png input.drawio
 
-# Xuất cuối cùng — CÓ -e để giữ file .drawio.png vẫn mở lại sửa được trong draw.io
+# Final export — WITH -e so the .drawio.png stays re-editable in draw.io
 "C:\Program Files\draw.io\draw.io.exe" -x -f png -e -s 2 -o output.drawio.png input.drawio
-python scripts/repair_png.py output.drawio.png   # BẮT BUỘC sau mọi lần xuất PNG có -e (CLI cắt thiếu IEND chunk)
+python scripts/repair_png.py output.drawio.png   # REQUIRED after every -e PNG export (CLI may omit IEND chunk)
 
-# SVG / PDF (không bị lỗi IEND, -e an toàn)
+# SVG / PDF (no IEND issue; -e is safe)
 "C:\Program Files\draw.io\draw.io.exe" -x -f svg -e -o output.svg input.drawio
 "C:\Program Files\draw.io\draw.io.exe" -x -f pdf -e -o output.pdf input.drawio
 ```
 
-Báo đường dẫn cả file `.drawio` gốc lẫn file ảnh đã xuất.
+Report paths for both the source `.drawio` and any exported images.
 
-## Các tính năng mở rộng khác (gọi khi user cần)
+## Extended features (invoke when the user needs them)
 
-| Nhu cầu | Script |
+| Need | Script |
 |---|---|
-| So sánh 2 phiên bản sơ đồ / phát hiện thay đổi hạ tầng | `scripts/drawiodiff.py old.drawio new.drawio -o diff.json` |
-| Xem tiến hoá kiến trúc theo lịch sử git | `scripts/timelapse.py <dir> --importer pyimports` |
-| Diễn giải 1 file `.drawio` thành Markdown (cho README/PR) | `scripts/explain.py diagram.drawio -o out.md` |
-| Chuyển sơ đồ (đặc biệt C4 nhiều trang) thành PowerPoint | `scripts/drawio2pptx.py c4.drawio -o deck.pptx` (cần `pip install python-pptx`) |
-| Viewer HTML tương tác (pan/zoom/search, không cần draw.io) | `scripts/drawiohtml.py diagram.drawio -o viewer.html` |
-| SVG có hiệu ứng "chạy" trên các mũi tên (data-flow động) | `scripts/svgflow.py diagram.drawio -o flow.svg` |
-| Chuyển `.drawio` → Mermaid text (nhúng vào Markdown) | `scripts/drawio2mermaid.py diagram.drawio --fenced -o out.md` |
-| Tô màu sơ đồ theo số liệu (cost/latency/traffic) | `scripts/heatmap.py diagram.drawio -m metrics.csv --palette heat` |
-| Không có draw.io CLI, cần xem trên trình duyệt | `scripts/encode_drawio_url.py input.drawio` (hoặc `--edit` để mở editor) — không upload gì lên server, toàn bộ nằm trong URL fragment |
+| Compare two diagram versions / detect infra drift | `scripts/drawiodiff.py old.drawio new.drawio -o diff.json` |
+| Architecture evolution over git history | `scripts/timelapse.py <dir> --importer pyimports` |
+| Explain a `.drawio` file as Markdown (for README/PR) | `scripts/explain.py diagram.drawio -o out.md` |
+| Convert diagrams (esp. multi-page C4) to PowerPoint | `scripts/drawio2pptx.py c4.drawio -o deck.pptx` (needs `pip install python-pptx`) |
+| Interactive HTML viewer (pan/zoom/search, no draw.io needed) | `scripts/drawiohtml.py diagram.drawio -o viewer.html` |
+| SVG with animated “flow” on edges (dynamic data-flow) | `scripts/svgflow.py diagram.drawio -o flow.svg` |
+| Convert `.drawio` → Mermaid text (embed in Markdown) | `scripts/drawio2mermaid.py diagram.drawio --fenced -o out.md` |
+| Color a diagram by metrics (cost/latency/traffic) | `scripts/heatmap.py diagram.drawio -m metrics.csv --palette heat` |
+| No draw.io CLI; view in the browser | `scripts/encode_drawio_url.py input.drawio` (or `--edit` for the editor) — nothing is uploaded; everything lives in the URL fragment |
 
-## Rules bắt buộc
+## Mandatory rules
 
-- Mặc định **không xuất ảnh** — chỉ ghi `.drawio`, trừ khi user yêu cầu hoặc bước tự-kiểm-tra bằng vision thực sự cần ảnh tạm (và phải nói rõ đó là ảnh tạm).
-- Style mặc định = TechSphereX AI palette (`drawio-conventions.md`), không phải preset gốc, trừ khi có preset khác được chỉ định.
-- Core shape ưu tiên; icon vendor cụ thể qua `shapesearch.py`, PHẢI ghi chú cần bật shape library tương ứng trong draw.io nếu dùng stencil ngoài core.
-- KHÔNG sửa logic bên trong các file ở `scripts/`, `references/`, `data/` — đây là mã nguồn mở bên thứ ba (MIT), chỉ gọi qua Bash. Nếu cần hành vi khác, wrap/override ở tầng SKILL.md này, không patch trực tiếp script gốc.
-- Sau `-e` PNG luôn chạy `scripts/repair_png.py` ngay sau đó.
-- Mọi lần chạy `autolayout.py`/importer xong PHẢI chạy `scripts/validate.py` trước khi xuất ảnh hoặc ghi báo cáo hoàn tất.
+- Default: **no image export** — write `.drawio` only, unless the user asks or vision self-check truly needs a temporary image (and say so).
+- Default style = TechSphereX AI palette (`drawio-conventions.md`), not upstream preset, unless another preset is specified.
+- Prefer core shapes; vendor icons via `shapesearch.py` — MUST note that the matching shape library must be enabled in draw.io when using non-core stencils.
+- Do NOT modify logic inside `scripts/`, `references/`, or `data/` — third-party MIT source; invoke via Bash only. For different behavior, wrap/override at this SKILL.md layer; do not patch upstream scripts.
+- After every `-e` PNG export, immediately run `scripts/repair_png.py`.
+- After every `autolayout.py`/importer run, MUST run `scripts/validate.py` before image export or completion report.
 
 ## Output
 
-- `docs/diagrams/{feature}/{diagram-type}-{slug}.drawio` — file nguồn chính.
-- Ảnh xuất (nếu có yêu cầu): cùng thư mục, đuôi kép `.drawio.png` / `.svg` / `.pdf` (embed XML để vẫn sửa được trong draw.io).
+- `docs/diagrams/{feature}/{diagram-type}-{slug}.drawio` — primary source file.
+- Exported images (if requested): same directory, double extension `.drawio.png` / `.svg` / `.pdf` (embedded XML so they remain editable in draw.io).
 
 ## References
 
@@ -156,14 +156,14 @@ Báo đường dẫn cả file `.drawio` gốc lẫn file ảnh đã xuất.
 - @.claude/rules/drawio-conventions.md
 - @.claude/rules/naming-conventions.md
 - Brain: `DRAWIO-BRAIN.md`
-- @references/toolbox.md — bản đồ đầy đủ 28 script, đọc khi chưa chắc dùng script nào
-- @references/diagram-types.md — preset shape/edge/layout theo loại sơ đồ user nêu tên
-- @references/xml-authoring.md — trước khi viết tay XML
-- @references/mermaid-authoring.md — khi dùng đường Mermaid → CLI convert
-- @references/style-presets.md — quản lý/áp dụng style preset, Learn flow
-- @references/style-extraction.md — quy trình trích style khi Learn
-- @references/shapes.md — cheatsheet style shape + cách dùng `shapesearch.py`
-- @references/autolayout.md — định dạng graph.json cho `autolayout.py`
-- @references/live-infra.md — vẽ hạ tầng đang chạy thật (Terraform state/Docker/K8s live)
-- @references/troubleshooting.md — export lỗi, vision từ chối ảnh, layout sai
-- @LICENSE-drawio-skill — giấy phép gốc MIT của phần mã tích hợp
+- @references/toolbox.md — full map of 28 scripts; read when unsure which to use
+- @references/diagram-types.md — shape/edge/layout presets by diagram type
+- @references/xml-authoring.md — before hand-authoring XML
+- @references/mermaid-authoring.md — when using Mermaid → CLI convert
+- @references/style-presets.md — manage/apply style presets, Learn flow
+- @references/style-extraction.md — style extraction for Learn
+- @references/shapes.md — shape style cheatsheet + how to use `shapesearch.py`
+- @references/autolayout.md — graph.json format for `autolayout.py`
+- @references/live-infra.md — diagram live running infra (Terraform state/Docker/K8s live)
+- @references/troubleshooting.md — export failures, vision rejecting images, bad layout
+- @LICENSE-drawio-skill — original MIT license for the integrated code

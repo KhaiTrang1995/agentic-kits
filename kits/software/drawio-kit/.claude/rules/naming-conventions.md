@@ -12,21 +12,21 @@
 
 ## 2. Paths
 
-| Loại | Path |
+| Kind | Path |
 |------|------|
 | All diagrams | `docs/diagrams/{feature}/{diagram-type}-{slug}.drawio` |
 | Feature slug | kebab-case folder under `docs/diagrams/` |
 
-`feature` = domain/module (vd. `booking`, `topo`, `auth`). Nếu user không nêu → derive từ mô tả hoặc hỏi 1 lần.
+`feature` = domain/module (e.g. `booking`, `topo`, `auth`). If the user does not specify → derive from the description or ask once.
 
 ## 3. Page / cell IDs
 
-- `diagram name` = short English or Vietnamese title
+- `diagram name` = short English title
 - `mxCell id` = unique strings (`n1`, `n2`, `e1`…) — never reuse
 
 ## 4. Frontmatter note (optional markdown companion)
 
-Khi ghi kèm note:
+When writing an accompanying note:
 
 ```yaml
 ---

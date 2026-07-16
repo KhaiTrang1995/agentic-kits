@@ -1,12 +1,12 @@
-﻿# Zabbix Kit
+# Zabbix Kit
 
-> AI Skill Kit for **Zabbix** â€” hosts, templates, triggers, and problem/log investigation checklists. Complements `k8s-kit` `/monitor` (Prometheus/Grafana files) and pairs with `elk-kit` / `grafana-kit` for deep log work.
+> AI Skill Kit for **Zabbix** — hosts, templates, triggers, and problem/log investigation checklists. Complements `k8s-kit` `/monitor` (Prometheus/Grafana files) and pairs with `elk-kit` / `grafana-kit` for deep log work.
 
 ## Skills
 
 | Skill | Description |
 |-------|-------------|
-| `/zabbix` | Hub Q&A â€” route to host / template / trigger / check |
+| `/zabbix` | Hub Q&A — route to host / template / trigger / check |
 | `/zabbix-host` | Host, groups, macros, proxy, tags |
 | `/zabbix-template` | Template items, LLD, graphs, macros |
 | `/zabbix-trigger` | Expressions, severity, dependency, recovery |
@@ -18,9 +18,9 @@ See **`ZABBIX-BRAIN.md`** for philosophy, healthy checklist, and anti-patterns.
 
 ## Rules
 
-- `zabbix-conventions.md` â€” template-first, trigger hygiene, secrets
-- `naming-conventions.md` â€” IDs and output paths
-- `approval-gate.md` â€” L1/L2/L3; agent never applies Zabbix config to prod
+- `zabbix-conventions.md` — template-first, trigger hygiene, secrets
+- `naming-conventions.md` — IDs and output paths
+- `approval-gate.md` — L1/L2/L3; agent never applies Zabbix config to prod
 
 ## Templates
 

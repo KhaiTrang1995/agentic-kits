@@ -1,64 +1,74 @@
 ---
 name: flowchart
-description: Sinh flowchart .drawio từ mô tả quy trình — start/end, process, decision, đúng chuẩn mxGraph, mở trực tiếp bằng draw.io.
+description: Generate flowchart .drawio from a process description — start/end, process, decision, standard mxGraph, opens directly in draw.io.
 user-invocable: true
-argument-hint: "<mô tả quy trình> [--direction top-down|left-right]"
+argument-hint: "<process description> [--direction top-down|left-right]"
 ---
 
-# /flowchart — Sinh Flowchart draw.io
+# /flowchart — Generate Flowchart (draw.io)
 
-## Khi nào dùng
-Cần trực quan hóa 1 quy trình nghiệp vụ hoặc luồng xử lý (business process, thuật toán, luồng approval) thành sơ đồ chuyên nghiệp, chỉnh sửa được trong draw.io.
+## When to use
+
+Visualize a business process or control flow (business process, algorithm, approval flow) as a professional diagram editable in draw.io.
 
 ## Input examples
+
 ```
-/flowchart quy trình duyệt đơn nghỉ phép: nộp đơn → quản lý duyệt → HR duyệt → xác nhận
-/flowchart luồng xử lý tìm kiếm container: nhập từ khóa → validate → query DB → có kết quả? → hiển thị / empty state
-/flowchart --direction left-right quy trình CI/CD: push code → build → test → deploy
+/flowchart leave request approval: submit request → manager approve → HR approve → confirm
+/flowchart container search flow: enter keyword → validate → query DB → results? → display / empty state
+/flowchart --direction left-right CI/CD process: push code → build → test → deploy
 ```
 
-## Quy trình
+## Workflow
 
-### Phase 1 — Phân tích bước
-Xác định danh sách bước theo loại:
-- **Start/End**: điểm bắt đầu/kết thúc (ellipse)
-- **Process**: hành động (rounded rectangle)
-- **Decision**: rẽ nhánh Yes/No hoặc nhiều nhánh (rhombus)
-- **Input/Output**: nhập liệu/xuất kết quả (parallelogram, nếu có)
+### Phase 1 — Analyze steps
+
+Identify steps by type:
+- **Start/End**: start/end points (ellipse)
+- **Process**: action (rounded rectangle)
+- **Decision**: Yes/No or multi-branch (rhombus)
+- **Input/Output**: data in/out (parallelogram, if any)
 
 ### Phase 2 — Layout (L3 preview)
-In danh sách node + vị trí dự kiến dạng bảng trước khi sinh XML:
+
+Print node list + planned positions as a table before generating XML:
+
 ```
-# | Loại | Nội dung | Vị trí (x,y)
-1 | Start | Bắt đầu | (360, 40)
-2 | Process | Nhập từ khóa | (360, 140)
-3 | Decision | Từ khóa hợp lệ? | (360, 260)
+# | Type | Content | Position (x,y)
+1 | Start | Start | (360, 40)
+2 | Process | Enter keyword | (360, 140)
+3 | Decision | Keyword valid? | (360, 260)
 ...
 ```
-User duyệt bố cục → Phase 3.
 
-### Phase 3 — Sinh XML
-Dùng `_templates/flowchart.drawio` làm khung, áp dụng:
-- Core shapes + màu theo `drawio-conventions.md` mục 2-3
-- Grid 20px, spacing chuẩn mục 4
-- Edge orthogonal với `exitX/exitY/entryX/entryY` tường minh, nhãn Yes/No trên nhánh decision
+User reviews layout → Phase 3.
+
+### Phase 3 — Generate XML
+
+Use `_templates/flowchart.drawio` as the frame, apply:
+- Core shapes + colors per `drawio-conventions.md` sections 2–3
+- Grid 20px, standard spacing section 4
+- Orthogonal edges with explicit `exitX/exitY/entryX/entryY`, Yes/No labels on decision branches
 
 ### Phase 4 — Approval L1 → Write
 
-## Rules bắt buộc
-- Luôn có đúng 1 Start và tối thiểu 1 End (có thể nhiều End nếu có nhiều kết quả khác nhau).
-- Decision PHẢI có đủ nhãn cho mọi nhánh ra (Yes/No, hoặc tên case cụ thể).
-- KHÔNG quá 15 node trong 1 diagram — nếu quy trình dài hơn, tách thành flowchart con + tham chiếu (`docs/diagrams/{feature}/flowchart-{sub-slug}.drawio`).
-- Hướng flow nhất quán (`--direction` mặc định `top-down`).
+## Mandatory rules
+
+- Always exactly 1 Start and at least 1 End (multiple Ends allowed for different outcomes).
+- Every Decision MUST label all outgoing branches (Yes/No, or specific case names).
+- NO more than 15 nodes in one diagram — if the process is longer, split into child flowcharts + references (`docs/diagrams/{feature}/flowchart-{sub-slug}.drawio`).
+- Consistent flow direction (`--direction` default `top-down`).
 
 ## Output
+
 `docs/diagrams/{feature}/flowchart-{slug}.drawio`
 
-## Xem thêm
+## See also
 
-Cần sequence diagram, ERD, UML class, C4 model, hoặc quy trình >15 bước cần auto-layout thay vì tách flowchart con thủ công → dùng `/diagram` (mạnh hơn nhưng cần draw.io desktop CLI).
+Need sequence diagram, ERD, UML class, C4 model, or processes >15 steps that need auto-layout instead of manual child-flowchart splits → use `/diagram` (more powerful, requires draw.io desktop CLI).
 
 ## References
+
 - @.claude/rules/drawio-conventions.md
 - @.claude/rules/naming-conventions.md
 - @.claude/rules/approval-gate.md

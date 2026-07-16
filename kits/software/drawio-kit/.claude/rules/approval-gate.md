@@ -1,29 +1,29 @@
 # Approval Gate — Diagram Kit
 
-> AI PHẢI xin phép user trước khi tạo/sửa file. Không skill nào tự ý ghi file.
+> The AI MUST get user permission before creating or editing files. No skill may write files on its own.
 
 ## 3 Levels
 
-| Level | Khi nào | User trả lời |
-|-------|---------|--------------|
-| **L1 Plan** | Trước mọi Write/Edit file | Y = làm, n = hủy, sửa = thay đổi plan |
-| **L2 Diff** | Khi Edit file `.drawio` đã tồn tại | Y = apply, n = giữ cũ |
-| **L3 Iterate** | Output cần review (bố cục sơ đồ, danh sách node/edge trước khi sinh XML) | Đồng ý / Sửa: ... / Hủy |
+| Level | When | User replies |
+|-------|------|--------------|
+| **L1 Plan** | Before every Write/Edit of a file | Y = proceed, n = cancel, edit = change the plan |
+| **L2 Diff** | When editing an existing `.drawio` file | Y = apply, n = keep current |
+| **L3 Iterate** | Output needs review (diagram layout, node/edge list before generating XML) | Approve / Edit: … / Cancel |
 
 ## L1 — Plan Preview
 
-Trước khi tạo file, skill in:
+Before creating a file, the skill prints:
 
 ```
-[/flowchart] Sẽ tạo:
-  1. docs/diagrams/container/flowchart-search-flow.drawio   — 8 node (2 decision), 9 edge
+[/flowchart] Will create:
+  1. docs/diagrams/container/flowchart-search-flow.drawio   — 8 nodes (2 decisions), 9 edges
 
 Apply? (Y/n):
 ```
 
 ## Rules
 
-- L1 bắt buộc ngay cả khi chỉ tạo 1 file.
-- KHÔNG skip approval vì "file nhỏ" hay "user đã confirm ở skill khác".
-- L2 chạy SAU L1 (L1 list file, L2 show diff khi user Y).
-- L3 chạy TRƯỚC L1 — liệt kê danh sách node/edge dự kiến (dạng bảng hoặc ASCII layout) để user xác nhận bố cục trước khi sinh XML đầy đủ, tránh phải sửa lại nhiều lần trên file XML khó đọc bằng mắt thường.
+- L1 is mandatory even when creating only one file.
+- Do NOT skip approval because the “file is small” or “user already confirmed in another skill”.
+- L2 runs AFTER L1 (L1 lists files; L2 shows the diff when the user answers Y).
+- L3 runs BEFORE L1 — list the planned nodes/edges (table or ASCII layout) so the user confirms layout before full XML is generated, avoiding many hard-to-read XML edits later.

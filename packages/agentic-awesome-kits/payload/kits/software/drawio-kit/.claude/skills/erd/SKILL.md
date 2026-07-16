@@ -1,67 +1,67 @@
 ---
 name: erd
-description: Sinh ERD .drawio — entity, attribute, quan hệ 1-1/1-N/N-N, PK/FK. XML tay theo TechSphereX AI palette; SQL DDL phức tạp chuyển /diagram --from-sql.
+description: Generate ERD .drawio — entities, attributes, 1-1/1-N/N-N relationships, PK/FK. Hand-authored XML with TechSphereX AI palette; complex SQL DDL → /diagram --from-sql.
 user-invocable: true
-argument-hint: "<mô tả entities/quan hệ> [--feature slug] [@schema.sql]"
+argument-hint: "<entity/relationship description> [--feature slug] [@schema.sql]"
 ---
 
 # /erd — Entity-Relationship Diagram (draw.io)
 
-## Khi nào dùng
+## When to use
 
-- Data model cho tài liệu thiết kế / BA–dev alignment
-- Vài–chục entity mô tả bằng lời (không cần importer SQL)
-- Cần file `.drawio` chỉnh tay được
+- Data model for design docs / BA–dev alignment
+- A few–dozens of entities described in words (no SQL importer needed)
+- Need a hand-editable `.drawio` file
 
-**Chuyển `/diagram` khi:** có file SQL DDL lớn (`sqlerd.py`), cần auto-layout hàng chục bảng, hoặc export PNG hàng loạt.
+**Switch to `/diagram` when:** large SQL DDL file (`sqlerd.py`), auto-layout for dozens of tables, or batch PNG export.
 
 ## Input examples
 
 ```
 /erd Order 1-N OrderLine, Order N-1 Customer, Order 1-1 Payment --feature booking
-/erd module auth: User, Role, UserRole (N-N), Permission
-/erd @schema.sql   → gợi ý chuyển /diagram --from-sql nếu >8 bảng
+/erd auth module: User, Role, UserRole (N-N), Permission
+/erd @schema.sql   → suggest /diagram --from-sql if >8 tables
 ```
 
-## Quy trình
+## Workflow
 
 ### Phase 1 — Inventory
 
-Liệt kê:
+List:
 
-| Entity | PK | Attributes (ngắn) | Notes |
+| Entity | PK | Attributes (short) | Notes |
 |--------|----|--------------------|-------|
 | | | | |
 
-Quan hệ: `A 1—N B`, `A N—N B` (// associative entity nếu cần).
+Relationships: `A 1—N B`, `A N—N B` (// associative entity if needed).
 
-Thiếu tên quan hệ / cardinality → hỏi 1–2 câu; **không bịa** FK.
+Missing relationship names / cardinality → ask 1–2 questions; **do not invent** FKs.
 
 ### Phase 2 — L3 layout preview
 
-Bảng node + cạnh (ASCII/table). User duyệt trước khi XML.
+Node + edge table (ASCII/table). User reviews before XML.
 
-### Phase 3 — Sinh XML
+### Phase 3 — Generate XML
 
-Dùng `@_templates/erd.drawio` làm khung:
+Use `@_templates/erd.drawio` as the frame:
 
-- Entity = rounded rect (hoặc swimlane-style header): **tên entity bold** + list attr
-- PK đánh dấu `PK`; FK `FK` (text only)
-- Edge: `endArrow=ERoneToMany` / `ERmandOne` / `ERzeroToMany` khi phù hợp; fallback `endArrow=block` + nhãn `1` / `N` trên edge
-- Palette: entity fill `#dae8fc`, associative `#fff2cc`, external ref `#f5f5f5` (theo conventions)
+- Entity = rounded rect (or swimlane-style header): **bold entity name** + attr list
+- Mark PK as `PK`; FK as `FK` (text only)
+- Edge: `endArrow=ERoneToMany` / `ERmandOne` / `ERzeroToMany` when appropriate; fallback `endArrow=block` + labels `1` / `N` on the edge
+- Palette: entity fill `#dae8fc`, associative `#fff2cc`, external ref `#f5f5f5` (per conventions)
 - Grid 20; entity box ~200×(40 + 20×attr count)
 
 ### Phase 4 — L1 → Write
 
 `docs/diagrams/{feature}/erd-{slug}.drawio`
 
-## Rules bắt buộc
+## Mandatory rules
 
 - @.claude/rules/drawio-conventions.md (core shapes, escape XML)
 - @.claude/rules/naming-conventions.md
 - @.claude/rules/approval-gate.md
-- Không bịa cột/quan hệ; TBD + hỏi
-- ≤ 15 entity trên 1 trang — nhiều hơn: tách domain hoặc `/diagram` + sqlerd/autolayout
+- Do not invent columns/relationships; TBD + ask
+- ≤ 15 entities per page — more: split by domain or use `/diagram` + sqlerd/autolayout
 
 ## Output
 
@@ -71,4 +71,4 @@ Dùng `@_templates/erd.drawio` làm khung:
 
 - @_templates/erd.drawio
 - @.claude/rules/drawio-conventions.md
-- Nâng cao: skill `/diagram` + `scripts/sqlerd.py`
+- Advanced: skill `/diagram` + `scripts/sqlerd.py`

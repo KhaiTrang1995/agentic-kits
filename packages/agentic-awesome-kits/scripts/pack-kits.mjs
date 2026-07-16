@@ -87,8 +87,12 @@ function main() {
   fs.rmSync(PAYLOAD, { recursive: true, force: true });
   ensureDir(path.join(PAYLOAD, "kits"));
 
+  const pkgVersion = JSON.parse(
+    fs.readFileSync(path.join(PKG, "package.json"), "utf8"),
+  ).version;
+
   const catalog = {
-    version: "0.1.0-dev",
+    version: pkgVersion,
     packedAt: new Date().toISOString(),
     source: "kits/",
     kits: [],
