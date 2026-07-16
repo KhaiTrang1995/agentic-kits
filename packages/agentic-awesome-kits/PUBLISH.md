@@ -37,7 +37,7 @@ npm publish
 
 # Verify
 npm view agentic-awesome-kits version
-npx agentic-awesome-kits@0.1.1 --list
+npx agentic-awesome-kits@0.1.2 --list
 ```
 
 `prepublishOnly` / `prepack` re-run pack from monorepo `kits/` automatically.
@@ -48,7 +48,7 @@ npm **never** allows re-publishing the same version (`You cannot publish over th
 
 ```bash
 cd packages/agentic-awesome-kits
-npm version patch   # 0.1.0 → 0.1.1  (or minor / major)
+npm version patch   # e.g. 0.1.1 → 0.1.2  (or minor / major)
 npm publish
 # commit package.json + git tag from monorepo root, then push
 ```

@@ -1,13 +1,13 @@
-﻿# ELK Kit
+# ELK Kit
 
-> AI Skill Kit for the **ELK Stack** (Elasticsearch Â· Logstash Â· Kibana) with a first-class **`/log-check`** skill for incident log investigation. Complements `grafana-kit` (Loki/LogQL) and `zabbix-kit` (infra triggers).
+> AI Skill Kit for the **ELK Stack** (Elasticsearch · Logstash · Kibana) with a first-class **`/log-check`** skill for incident log investigation. Complements `grafana-kit` (Loki/LogQL) and `zabbix-kit` (infra triggers).
 
 ## Skills
 
 | Skill | Description |
 |-------|-------------|
-| `/elk` | Hub Q&A â€” route to log-check, query, pipeline, dashboard, health |
-| `/log-check` | **Investigate logs** â€” window, KQL, patterns, redacted samples, report |
+| `/elk` | Hub Q&A — route to log-check, query, pipeline, dashboard, health |
+| `/log-check` | **Investigate logs** — window, KQL, patterns, redacted samples, report |
 | `/es-query` | KQL / Lucene / Query DSL samples (read-only) |
 | `/logstash` | Logstash / ingest pipeline sketch |
 | `/kibana-dashboard` | Kibana dashboard panel spec |
@@ -19,9 +19,9 @@ See **`ELK-BRAIN.md`**.
 
 ## Rules
 
-- `elk-conventions.md` â€” index fields, query safety, PII
+- `elk-conventions.md` — index fields, query safety, PII
 - `naming-conventions.md`
-- `approval-gate.md` â€” no delete-index / prod API calls
+- `approval-gate.md` — no delete-index / prod API calls
 
 ## Templates
 
@@ -48,10 +48,10 @@ cp -r kits/devops/elk-kit/_templates/ your-project/_templates/
 
 ```
 Alert / user report
-  â†’ /log-check
-  â†’ /es-query (refine)
-  â†’ /logstash if fields missing
-  â†’ /kibana-dashboard for on-call view
+  → /log-check
+  → /es-query (refine)
+  → /logstash if fields missing
+  → /kibana-dashboard for on-call view
 ```
 
 ## Safety
