@@ -1,20 +1,20 @@
-# Jekyll / GitHub Pages — agentic-kits
-# https://github.com/KhaiTrang1995/agentic-kits
+# Jekyll / GitHub Pages â€” agentic-awesome-kits
+# https://github.com/KhaiTrang1995/agentic-awesome-kits
 
-title: agentic-kits
+title: agentic-awesome-kits
 description: >-
-  Reusable AI skill kits for coding agents — Skills, Rules, and Templates.
+  Reusable AI skill kits for coding agents â€” Skills, Rules, and Templates.
   DevOps kits for Docker, Swarm, Kubernetes, Zabbix, ELK, and Grafana.
   Examples use .NET 10.
 lang: en
 
-# Project site: https://KhaiTrang1995.github.io/agentic-kits/
+# Project site: https://KhaiTrang1995.github.io/agentic-awesome-kits/
 url: "https://KhaiTrang1995.github.io"
-baseurl: "/agentic-kits"
+baseurl: "/agentic-awesome-kits"
 
-repository: KhaiTrang1995/agentic-kits
+repository: KhaiTrang1995/agentic-awesome-kits
 github:
-  repository_url: https://github.com/KhaiTrang1995/agentic-kits
+  repository_url: https://github.com/KhaiTrang1995/agentic-awesome-kits
 
 # Author / footer
 author:
@@ -58,16 +58,15 @@ exclude:
   - "**/GRAFANA-BRAIN.md"
   - "**/ZABBIX-BRAIN.md"
   - "**/DRAWIO-BRAIN.md"
-  - "software/**/scripts/**"
-  - "software/**/data/**"
-  - "software/**/styles/**"
-  - "software/**/LICENSE-drawio-skill"
+  - "kits/software/**/scripts/**"
+  - "kits/software/**/data/**"
+  - "kits/software/**/styles/**"
+  - "kits/software/**/LICENSE-drawio-skill"
 
 # Keep these in the published site
 include:
   - index.html
-  - devops
-  - software
+  - kits
 
 # Plugins allowed on GitHub Pages
 plugins:

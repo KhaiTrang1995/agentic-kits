@@ -8,12 +8,5 @@ node_modules/
 .vscode/
 .idea/
 share-untrack/
-
-# Jekyll
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
-vendor/
-.bundle/
-Gemfile.lock
+packages/agentic-awesome-kits/tmp-skills/
+packages/agentic-awesome-kits/node_modules/

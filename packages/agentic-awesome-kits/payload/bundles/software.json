@@ -1,0 +1,8 @@
+{
+  "id": "software",
+  "name": "software",
+  "description": "All kits under kits/software/",
+  "kits": [
+    "drawio-kit"
+  ]
+}

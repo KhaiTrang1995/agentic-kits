@@ -1,12 +1,12 @@
-# Contributing to agentic-kits
+# Contributing to agentic-awesome-kits
 
 Thanks for helping improve these kits. This repo packages **AI skill kits** (Skills + Rules + Templates, and optional Brain files) so coding agents produce consistent, production-minded output—not one-off prompts.
 
 ## Before you start
 
-1. Open an [issue](https://github.com/KhaiTrang1995/agentic-kits/issues) for large changes (new kit, breaking skill rename, site redesign). Small fixes can go straight to a PR.
+1. Open an [issue](https://github.com/KhaiTrang1995/agentic-awesome-kits/issues) for large changes (new kit, breaking skill rename, site redesign). Small fixes can go straight to a PR.
 2. Skim the root [README](./README.md) and the kit you are changing.
-3. Keep contributions in the **public** tree (`devops/`, `software/`, site files). Do not add private or org-only content.
+3. Keep contributions in the **public** tree (`kits/devops/`, `kits/software/`, site files, `packages/`). Do not add private or org-only content.
 
 ## What belongs in a kit
 
@@ -48,8 +48,8 @@ Every kit should follow this shape:
 | Fix | Typos, broken links, unclear skill steps, template bugs |
 | Improve a kit | Stronger rules, better templates, reference cheatsheets |
 | New skill in an existing kit | e.g. another check flow under `elk-kit` |
-| New kit | New folder under `devops/` or `software/` with full structure + README |
-| Docs / site | `index.html`, `devops/index.html`, README, Jekyll config |
+| New kit | New folder under `kits/{category}/` (e.g. `kits/devops/`, `kits/software/`) with full structure + README |
+| Docs / site | `index.html`, `kits/devops/index.html`, README, Jekyll config |
 
 ### New skill checklist
 
@@ -65,17 +65,19 @@ Every kit should follow this shape:
 - [ ] Same structure as existing kits (`docker-kit` / `elk-kit` are good references)
 - [ ] `approval-gate.md` + domain `*-conventions.md`
 - [ ] At least one usable skill and a kit README with install + examples
-- [ ] Linked from root `README.md` and `devops/README.md` or `software/README.md`
-- [ ] Linked from docs UI (`index.html` / `devops/index.html`) if it is a public devops kit
+- [ ] Linked from root `README.md` and `kits/devops/README.md` or `kits/software/README.md`
+- [ ] Linked from docs UI (`index.html` / `kits/devops/index.html`) if it is a public devops kit
 - [ ] No dependency on private `share-untrack/` content
 
 ## Repo layout (public)
 
 | Path | Purpose |
 |------|---------|
-| `devops/` | Container, orchestration, observability kits + docs UI |
-| `software/` | Craft/role kits (e.g. `drawio-kit`) |
-| `index.html`, `devops/index.html` | GitHub Pages docs |
+| `kits/` | Parent for all public kits by category |
+| `kits/devops/` | Container, orchestration, observability kits + docs UI |
+| `kits/software/` | Craft/role kits (e.g. `drawio-kit`) |
+| `packages/agentic-awesome-kits/` | `npx agentic-awesome-kits` CLI (plan bundle) |
+| `index.html`, `kits/devops/index.html` | GitHub Pages docs |
 | `_config.yml`, `Gemfile`, `.github/workflows/pages.yml` | Jekyll / Pages |
 | `share-untrack/` | **Local only** (gitignored)—not for PRs |
 
@@ -106,14 +108,14 @@ Optional, if you touch Jekyll/Pages files:
 ```bash
 bundle install
 bundle exec jekyll serve
-# http://127.0.0.1:4000/agentic-kits/
+# http://127.0.0.1:4000/agentic-awesome-kits/
 ```
 
 Kit skills themselves do not need a build step—copy `.claude/` into a test project and run the skill in a compatible agent.
 
 ## Language
 
-- **Public kits and site:** English (matches existing `devops/*` kits).
+- **Public kits and site:** English (matches existing `kits/devops/*` kits).
 - Clear, short sentences; avoid org-specific jargon unless documented.
 
 ## Code of conduct (short)
@@ -129,4 +131,4 @@ By contributing, you agree your contributions are licensed under the same terms 
 ## Questions
 
 Open an issue with the `question` label (or a clear title), or discuss on the PR.  
-Repo: https://github.com/KhaiTrang1995/agentic-kits
+Repo: https://github.com/KhaiTrang1995/agentic-awesome-kits

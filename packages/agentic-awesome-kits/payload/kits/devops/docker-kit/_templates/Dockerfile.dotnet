@@ -1,0 +1,23 @@
+# Template: .NET 10 Multi-stage Dockerfile
+FROM mcr.microsoft.com/dotnet/sdk:10.0-alpine AS build
+WORKDIR /src
+
+# Restore (cached layer)
+COPY *.csproj .
+RUN dotnet restore
+
+# Build
+COPY . .
+RUN dotnet publish -c Release -o /app --no-restore
+
+# Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-alpine AS runtime
+RUN adduser -D -u 1001 appuser
+WORKDIR /app
+COPY --from=build /app .
+USER appuser
+EXPOSE 8080
+ENV ASPNETCORE_URLS=http://+:8080
+HEALTHCHECK --interval=30s --timeout=3s --retries=3 \
+  CMD wget -q --spider http://localhost:8080/health || exit 1
+ENTRYPOINT ["dotnet", "{{AppName}}.dll"]

@@ -1,0 +1,36 @@
+<mxfile host="app.diagrams.net" agent="TechSphereX AI-drawio-kit" version="24.0.0" type="device">
+  <diagram id="erd-template" name="ERD">
+    <mxGraphModel dx="1000" dy="700" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <mxCell id="ent-customer" value="&lt;b&gt;Customer&lt;/b&gt;&lt;hr&gt;PK id&lt;br&gt;name&lt;br&gt;email" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Segoe UI;fontSize=12;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="80" y="120" width="200" height="120" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ent-order" value="&lt;b&gt;Order&lt;/b&gt;&lt;hr&gt;PK id&lt;br&gt;FK customer_id&lt;br&gt;status&lt;br&gt;total" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Segoe UI;fontSize=12;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="400" y="100" width="200" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ent-line" value="&lt;b&gt;OrderLine&lt;/b&gt;&lt;hr&gt;PK id&lt;br&gt;FK order_id&lt;br&gt;product_id&lt;br&gt;qty" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#dae8fc;strokeColor=#6c8ebf;fontFamily=Segoe UI;fontSize=12;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="720" y="100" width="200" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="ent-pay" value="&lt;b&gt;Payment&lt;/b&gt;&lt;hr&gt;PK id&lt;br&gt;FK order_id&lt;br&gt;method&lt;br&gt;amount" style="rounded=1;whiteSpace=wrap;html=1;align=left;spacingLeft=8;fillColor=#fff2cc;strokeColor=#d6b656;fontFamily=Segoe UI;fontSize=12;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="400" y="340" width="200" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="rel1" value="1&amp;nbsp;&amp;nbsp;&amp;nbsp;N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;startArrow=ERone;endArrow=ERmany;startFill=0;endFill=0;fontFamily=Segoe UI;fontSize=11;" edge="1" parent="1" source="ent-customer" target="ent-order">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel2" value="1&amp;nbsp;&amp;nbsp;&amp;nbsp;N" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=1;exitY=0.5;entryX=0;entryY=0.5;startArrow=ERone;endArrow=ERmany;startFill=0;endFill=0;fontFamily=Segoe UI;fontSize=11;" edge="1" parent="1" source="ent-order" target="ent-line">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="rel3" value="1&amp;nbsp;&amp;nbsp;&amp;nbsp;1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=1;entryX=0.5;entryY=0;startArrow=ERone;endArrow=ERone;startFill=0;endFill=0;fontFamily=Segoe UI;fontSize=11;" edge="1" parent="1" source="ent-order" target="ent-pay">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
