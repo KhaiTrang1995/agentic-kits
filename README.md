@@ -37,7 +37,7 @@ agentic-awesome-kits/
 | Category | Status | Kits |
 |----------|--------|------|
 | [kits/devops](./kits/devops/) | Available | **Run:** `docker-kit`, `docker-swarm-kit`, `k8s-kit` · **Observe:** `zabbix-kit`, `elk-kit` (`/log-check`), `grafana-kit` (`/loki-query`) |
-| [kits/software](./kits/software/) | Partial | **[drawio-kit](./kits/software/drawio-kit/)** — `.drawio` architecture / flowchart / ERD / advanced diagram · more role kits TBD |
+| [kits/software](./kits/software/) | Partial | **[drawio-kit](./kits/software/drawio-kit/)** — `.drawio` architecture / flowchart / ERD · **[runner-kit-3d](./kits/software/runner-kit-3d/)** — 3D endless-runner skills (live demos: [`demos/runner-kit-3d/`](./demos/runner-kit-3d/)) · more role kits TBD |
 
 ### DevOps at a glance
 
@@ -63,6 +63,7 @@ Zabbix problem / log item → zabbix-kit  /zabbix-check
 | Kit | Skills (highlight) |
 |-----|--------------------|
 | [drawio-kit](./kits/software/drawio-kit/) | `/architecture`, `/flowchart`, `/erd`, `/diagram` (draw.io CLI for advanced) |
+| [runner-kit-3d](./kits/software/runner-kit-3d/) | `/runner`, `/runner-new`, `/runner-tune` · engine: [`demos/runner-kit-3d/`](./demos/runner-kit-3d/) |
 
 ## Quick start
 
@@ -140,6 +141,7 @@ bundle exec jekyll serve
 - [x] Observability kits — Zabbix, ELK (`/log-check`), Grafana/Loki (`/loki-query`)
 - [x] `kits/` parent — devops + software categories
 - [x] `kits/software/drawio-kit` — technical diagrams as `.drawio`
+- [x] `kits/software/runner-kit-3d` — 3D endless-runner skills + `demos/runner-kit-3d`
 - [ ] `npx agentic-awesome-kits` plan installer (`packages/agentic-awesome-kits`)
 - [ ] More software kits — BA, PM, dev (per-stack), QA, tech lead
 - [ ] Cross-kit index / search once the kit count grows past a handful per category

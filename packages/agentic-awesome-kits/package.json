@@ -1,7 +1,7 @@
 {
   "name": "agentic-awesome-kits",
-  "version": "0.1.2",
-  "description": "Install public AI skill kits (DevOps + draw.io) into Claude Code, Cursor, Codex, and other agent CLIs — project-first, local copy only.",
+  "version": "0.1.3",
+  "description": "Install public AI skill kits (DevOps, draw.io, Three.js games) into Claude Code, Cursor, Codex, and other agent CLIs — project-first, local copy only.",
   "license": "CC-BY-NC-SA-4.0",
   "type": "commonjs",
   "bin": {
@@ -35,6 +35,8 @@
     "elk",
     "grafana",
     "drawio",
+    "three.js",
+    "games",
     "npx"
   ],
   "homepage": "https://github.com/KhaiTrang1995/agentic-awesome-kits#readme",

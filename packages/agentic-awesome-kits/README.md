@@ -15,7 +15,7 @@ Skills + rules + templates are copied into the project. Nothing is run against y
 | Category | Kits | Examples |
 |----------|------|----------|
 | **devops** | docker, docker-swarm, k8s, zabbix, elk, grafana | `/dockerfile`, `/deploy`, `/log-check`, `/loki-query` |
-| **software** | drawio-kit | `/architecture`, `/flowchart`, `/erd`, `/diagram` |
+| **software** | drawio-kit, runner-kit-3d | `/architecture`, `/flowchart`, `/erd`, `/diagram`, `/runner`, `/runner-new`, `/runner-tune` |
 
 List everything bundled in this package:
 
@@ -64,6 +64,7 @@ Existing skill folders are kept unless you pass `--force`.
 /dockerfile .NET 10 Minimal API --prod
 /log-check booking-api --env prod --since 1h
 /architecture TOPO overview
+/runner --list
 ```
 
 Examples often use **.NET 10** for containers; skills are stack-agnostic—name another runtime in the prompt when needed.

@@ -1,0 +1,21 @@
+{
+  "name": "runner-kit-3d",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Bộ kit làm game 3D dạng endless-runner (trượt tuyết, đua xe, flappy...) — trích xuất từ TECHSPHEREX, chạy thuần trình duyệt không cần build. 5 demo + scaffold + docs học tập.",
+  "license": "MIT",
+  "scripts": {
+    "dev": "npx --yes http-server -p 4180 -c-1",
+    "start": "npx --yes http-server -p 4180 -c-1",
+    "new-game": "node scripts/new-game.mjs"
+  },
+  "keywords": [
+    "three.js",
+    "game-kit",
+    "endless-runner",
+    "flappy",
+    "educational",
+    "no-build"
+  ]
+}

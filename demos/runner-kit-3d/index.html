@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>RUNNER KIT 3D — bộ kit làm game endless-runner</title>
+  <meta name="description" content="Bộ kit Three.js làm game 3D dạng endless-runner: trượt tuyết, đua xe, flappy… 5 demo, scaffold 1 lệnh, docs học tập. Chạy thuần trình duyệt, không cần build." />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎮</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@700;800&family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="kit/fonts.css" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+      padding: 2.5rem 1.25rem 3rem;
+      background: radial-gradient(ellipse at top, #1c1240, #0a0616 70%);
+      color: #f6f2ff;
+      font-family: var(--font-ui, "Outfit", "Segoe UI", system-ui, sans-serif);
+      text-align: center;
+    }
+    .kicker {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.55em;
+      text-transform: uppercase; color: #ffd27f;
+    }
+    h1 {
+      font-family: var(--font-display, "Be Vietnam Pro", "Outfit", system-ui, sans-serif);
+      font-weight: 800;
+      font-size: clamp(2rem, 7vw, 4rem);
+      line-height: 1;
+      margin-top: 0.25em;
+      text-shadow: 0 5px 0 rgba(255, 45, 120, 0.55), 0 12px 0 rgba(51, 230, 255, 0.22);
+    }
+    h1 span { color: #33e6ff; }
+    .sub { font-weight: 300; letter-spacing: 0.28em; text-transform: uppercase; opacity: 0.85; margin-top: 0.7em; font-size: 0.9rem; }
+    .lead {
+      max-width: 36rem;
+      font-weight: 300;
+      opacity: 0.8;
+      line-height: 1.55;
+      font-size: 0.95rem;
+    }
+    .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+    .pill {
+      padding: 0.35em 0.9em;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      border: 1px solid rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.06);
+    }
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      opacity: 0.55;
+      margin-top: 0.5rem;
+    }
+    .cards { display: flex; flex-wrap: wrap; gap: 1.1rem; justify-content: center; max-width: 1100px; }
+    .card {
+      display: block;
+      width: min(86vw, 280px);
+      padding: 1.6rem 1.35rem 1.45rem;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      color: inherit;
+      text-decoration: none;
+      transition: transform 0.15s, border-color 0.15s, background 0.15s;
+      text-align: left;
+    }
+    .card:hover { transform: translateY(-5px); border-color: #ffd27f; background: rgba(255, 255, 255, 0.09); }
+    .card .emoji { font-size: 2.6rem; display: block; line-height: 1; }
+    .card h2 {
+      font-family: var(--font-display, "Be Vietnam Pro", "Outfit", system-ui, sans-serif);
+      font-weight: 800;
+      font-size: 1.25rem;
+      margin: 0.5em 0 0.35em;
+    }
+    .card p { font-weight: 300; font-size: 0.85rem; opacity: 0.8; line-height: 1.45; }
+    .card .tag {
+      display: inline-block;
+      margin-top: 0.9em;
+      padding: 0.28em 0.85em;
+      border-radius: 999px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      background: rgba(255, 210, 127, 0.14);
+      color: #ffd27f;
+    }
+    .ski h2 { color: #aee9ff; }
+    .moto h2 { color: #ff2d78; }
+    .skiside h2 { color: #ffd6a8; }
+    .wing h2 { color: #5ce1ff; }
+    .loop h2 { color: #ff6b2d; }
+    .learn {
+      max-width: 640px;
+      width: 100%;
+      padding: 1.4rem 1.5rem;
+      border-radius: 20px;
+      border: 1px dashed rgba(51, 230, 255, 0.35);
+      background: rgba(51, 230, 255, 0.06);
+      text-align: left;
+    }
+    .learn h3 {
+      font-family: var(--font-display, "Be Vietnam Pro", "Outfit", system-ui, sans-serif);
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #33e6ff;
+      margin-bottom: 0.6em;
+    }
+    .learn code {
+      display: block;
+      margin: 0.5em 0;
+      padding: 0.7em 1em;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.35);
+      font-size: 0.82rem;
+      letter-spacing: 0.02em;
+      overflow-x: auto;
+    }
+    .learn p, .learn li { font-weight: 300; font-size: 0.88rem; opacity: 0.88; line-height: 1.5; }
+    .learn ol { margin: 0.5em 0 0 1.2em; }
+    .learn a { color: #ffd27f; }
+    footer { font-size: 0.72rem; font-weight: 300; letter-spacing: 0.15em; opacity: 0.55; max-width: 36rem; line-height: 1.6; }
+    footer strong { color: #33e6ff; }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="kicker">open source · học làm game 3d</p>
+    <h1>RUNNER<span>KIT</span></h1>
+    <p class="sub">một engine · vô số endless-runner</p>
+  </header>
+
+  <p class="lead">
+    Bộ kit Three.js trích từ kiến trúc <strong>TECHSPHEREX</strong> (flappy-bird-3D).
+    5 demo đầy đủ điều khiển, scaffold 1 lệnh, docs tiếng Việt — sẵn sàng share cho mọi người học.
+  </p>
+
+  <div class="pills">
+    <span class="pill">không build</span>
+    <span class="pill">ES modules + CDN</span>
+    <span class="pill">mobile + desktop</span>
+    <span class="pill">MIT license</span>
+  </div>
+
+  <p class="section-label">chơi demo</p>
+  <nav class="cards">
+    <a class="card ski" href="games/ski/">
+      <span class="emoji">⛷️</span>
+      <h2>TUYẾT PHONG</h2>
+      <p>Lao xuống sườn núi, lách rừng thông, ghi điểm qua cổng cờ slalom.</p>
+      <span class="tag">lái mượt · forward</span>
+    </a>
+    <a class="card moto" href="games/moto/">
+      <span class="emoji">🏍️</span>
+      <h2>NEON RIDER</h2>
+      <p>Phóng moto xa lộ đêm 3 làn, đổi làn lách dòng xe, tốc độ tăng dần.</p>
+      <span class="tag">đổi làn · forward</span>
+    </a>
+    <a class="card skiside" href="games/ski-side/">
+      <span class="emoji">🎿</span>
+      <h2>TUYẾT PHI</h2>
+      <p>Trượt ngang kiểu runner: nhảy qua đá/cây, luồn dưới ghế cáp treo.</p>
+      <span class="tag">nhảy · side</span>
+    </a>
+    <a class="card wing" href="games/wing/">
+      <span class="emoji">🪽</span>
+      <h2>CÁNH TRỜI</h2>
+      <p>Flappy 3D thật: vỗ cánh liên tục, luồn khe cột đá trên biển thuỷ tinh.</p>
+      <span class="tag">vỗ cánh · side</span>
+    </a>
+    <a class="card loop" href="games/loop/">
+      <span class="emoji">🏎️</span>
+      <h2>LOOP STREET</h2>
+      <p>Đua xe phố đêm màn ngang: nhảy thùng, luồn biển QC, lọt vòng neon.</p>
+      <span class="tag">nhảy + lái · side</span>
+    </a>
+  </nav>
+
+  <section class="learn">
+    <h3>🎓 Tự tạo game trong 10 phút</h3>
+    <code>npm run dev<br>npm run new-game skate -- --template wing --title "SKATE"</code>
+    <ol>
+      <li>Chọn template gần với kiểu điều khiển bạn muốn.</li>
+      <li>Sửa <strong>CONFIG</strong>, mesh nhân vật, và <strong>place()</strong> chướng ngại.</li>
+      <li>Đổi CSS variables (<code>--accent</code>, <code>--bg</code>) cho theme riêng.</li>
+    </ol>
+    <p style="margin-top:0.8em">Đọc chi tiết: <strong>docs/LEARN.md</strong> · kiến trúc: <strong>README.md</strong></p>
+  </section>
+
+  <footer>
+    trích xuất từ <strong>TECHSPHEREX</strong> · MIT License ·
+    5 demo · kit/ + scaffold · dành cho học tập và remix
+  </footer>
+</body>
+</html>

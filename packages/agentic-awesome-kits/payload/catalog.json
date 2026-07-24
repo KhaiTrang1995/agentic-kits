@@ -1,6 +1,6 @@
 {
-  "version": "0.1.2",
-  "packedAt": "2026-07-16T03:42:21.812Z",
+  "version": "0.1.3",
+  "packedAt": "2026-07-24T03:09:19.878Z",
   "source": "kits/",
   "kits": [
     {
@@ -80,11 +80,21 @@
         "flowchart"
       ],
       "path": "kits/software/drawio-kit"
+    },
+    {
+      "id": "runner-kit-3d",
+      "category": "software",
+      "skills": [
+        "runner",
+        "runner-new",
+        "runner-tune"
+      ],
+      "path": "kits/software/runner-kit-3d"
     }
   ],
   "categories": [
     "devops",
     "software"
   ],
-  "skillCount": 29
+  "skillCount": 32
 }

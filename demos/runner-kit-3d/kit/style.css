@@ -1,0 +1,400 @@
+/* ── RUNNER KIT · HUD chuẩn ─────────────────────────────────────
+   Mỗi game override biến màu trong <style> riêng:
+   --ink (chữ), --accent (nhấn), --accent2 (nhấn phụ), --gold (kỷ lục),
+   --bg (nền trang), --panel (nền panel), --shadow (bóng chữ)         */
+
+:root {
+  --ink: #fff6ec;
+  --accent: #ff8e5e;
+  --accent2: #7ee8d8;
+  --gold: #ffd27f;
+  --bg: #1a1038;
+  --panel: rgba(26, 16, 56, 0.45);
+  --shadow: rgba(20, 8, 40, 0.55);
+  /* fallback nếu fonts.css chưa load / offline */
+  --font-ui: "Outfit", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-display: "Be Vietnam Pro", "Outfit", "Segoe UI", system-ui, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  font-family: var(--font-ui, "Outfit", "Segoe UI", system-ui, sans-serif);
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#game {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: pointer;
+}
+
+#vignette {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 58%, var(--shadow) 100%);
+}
+
+#flash {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: #fff;
+  opacity: 0;
+}
+#flash.boom { animation: boom 0.45s ease-out; }
+@keyframes boom {
+  0% { opacity: 0.85; }
+  100% { opacity: 0; }
+}
+
+#hud {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--ink);
+  text-align: center;
+}
+
+.hidden { display: none !important; }
+
+#score {
+  position: absolute;
+  top: calc(4vh + env(safe-area-inset-top, 0px));
+  font-family: var(--font-display, "Be Vietnam Pro", "Outfit", system-ui, sans-serif);
+  font-weight: 800;
+  font-size: clamp(3.4rem, 9vw, 6rem);
+  line-height: 1;
+  color: var(--ink);
+  text-shadow:
+    0 4px 0 color-mix(in srgb, var(--accent) 65%, transparent),
+    0 10px 34px var(--shadow);
+}
+#score.pop { animation: pop 0.32s cubic-bezier(0.2, 2.4, 0.4, 1); }
+@keyframes pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.28) rotate(-2deg); }
+  100% { transform: scale(1); }
+}
+
+#menu, #gameover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -54%);
+  width: min(92vw, 560px);
+}
+
+.kicker {
+  font-size: clamp(0.7rem, 1.6vw, 0.9rem);
+  font-weight: 700;
+  letter-spacing: 0.55em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-shadow: 0 2px 14px var(--shadow);
+  animation: rise 0.7s 0.05s both;
+}
+
+.title {
+  font-family: var(--font-display, "Be Vietnam Pro", "Outfit", system-ui, sans-serif);
+  font-weight: 800;
+  font-size: clamp(2.2rem, 9.4vw, 5.4rem);
+  line-height: 0.95;
+  width: 100vw;
+  margin: 0.18em 0 0.1em calc(50% - 50vw);
+  color: var(--ink);
+  text-shadow:
+    0 5px 0 color-mix(in srgb, var(--accent) 70%, transparent),
+    0 12px 0 color-mix(in srgb, var(--accent2) 28%, transparent),
+    0 22px 60px var(--shadow);
+  animation: rise 0.7s 0.15s both;
+}
+.title span { color: var(--accent2); }
+
+.tagline {
+  font-weight: 300;
+  font-size: clamp(0.95rem, 2.4vw, 1.25rem);
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  opacity: 0.9;
+  text-shadow: 0 2px 12px var(--shadow);
+  animation: rise 0.7s 0.25s both;
+}
+
+.chip {
+  display: inline-block;
+  margin-top: 2.1em;
+  padding: 0.5em 1.4em;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 0.85rem;
+  letter-spacing: 0.3em;
+  animation: rise 0.7s 0.35s both;
+}
+.chip strong { color: var(--gold); font-size: 1.05rem; }
+
+.instructions {
+  margin-top: 1.6em;
+  font-size: clamp(0.85rem, 2vw, 1.05rem);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  animation: rise 0.7s 0.45s both, breathe 2.4s 1.2s ease-in-out infinite;
+}
+
+.key {
+  display: inline-block;
+  padding: 0.18em 0.65em;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-bottom-width: 3px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  text-transform: uppercase;
+  font-size: 0.85em;
+  letter-spacing: 0.18em;
+}
+
+.hint {
+  margin-top: 1.5em;
+  font-weight: 300;
+  font-size: 0.82rem;
+  letter-spacing: 0.16em;
+  opacity: 0.62;
+  animation: rise 0.7s 0.55s both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(26px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes breathe {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+
+.panel {
+  display: flex;
+  justify-content: center;
+  gap: 1px;
+  margin: 1.4em auto 0;
+  width: min(82vw, 380px);
+  border-radius: 22px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 24px 60px var(--shadow);
+  animation: rise 0.6s 0.15s both;
+}
+
+.stat {
+  flex: 1;
+  padding: 1.3em 0.5em 1.15em;
+  background: var(--panel);
+  display: flex;
+  flex-direction: column;
+  gap: 0.3em;
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.45em;
+  opacity: 0.7;
+}
+
+.stat-value {
+  font-family: var(--font-display, "Be Vietnam Pro", "Outfit", system-ui, sans-serif);
+  font-weight: 800;
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1;
+}
+.stat-value.gold { color: var(--gold); }
+
+#gameover .instructions { animation-delay: 0.4s; }
+
+.newbest {
+  margin-top: 1.1em;
+  color: var(--gold);
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  text-shadow: 0 0 18px color-mix(in srgb, var(--gold) 80%, transparent);
+  animation: rise 0.5s 0.3s both, breathe 1.6s 1s ease-in-out infinite;
+}
+
+.lb {
+  margin: 1.4em auto 0;
+  width: min(82vw, 340px);
+  padding: 0.9em 1.1em 1em;
+  border-radius: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: var(--panel);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: rise 0.7s 0.4s both;
+}
+
+.lb-title {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 0.7em;
+}
+
+.lb-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.32em;
+  max-height: 168px;
+  overflow: hidden;
+}
+
+.lb-list li {
+  display: grid;
+  grid-template-columns: 2ch 1fr auto;
+  gap: 0.7em;
+  align-items: baseline;
+  font-size: 0.88rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+}
+
+.lb-rank { opacity: 0.55; font-size: 0.75rem; text-align: right; }
+.lb-name { text-align: left; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.lb-score { font-weight: 700; color: var(--accent2); }
+
+.lb-list li.me .lb-name,
+.lb-list li.me .lb-rank { color: var(--gold); opacity: 1; }
+.lb-list li.me .lb-score { color: var(--gold); }
+
+.lb-list li.lb-empty { display: block; opacity: 0.55; font-weight: 300; text-align: center; }
+
+#submit-row {
+  pointer-events: auto;
+  display: flex;
+  justify-content: center;
+  gap: 0.5em;
+  margin-top: 1.3em;
+  animation: rise 0.6s 0.3s both;
+}
+
+#pilot-name {
+  width: min(48vw, 220px);
+  padding: 0.6em 1em;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--ink);
+  font-family: var(--font-ui, "Outfit", "Segoe UI", system-ui, sans-serif);
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  outline: none;
+}
+#pilot-name::placeholder { color: color-mix(in srgb, var(--ink) 45%, transparent); }
+#pilot-name:focus { border-color: var(--gold); }
+
+#submit-btn {
+  pointer-events: auto;
+  padding: 0.6em 1.3em;
+  border-radius: 12px;
+  border: none;
+  border-bottom: 3px solid color-mix(in srgb, var(--accent) 60%, #000);
+  background: var(--accent);
+  color: #1a1208;
+  font-family: var(--font-ui, "Outfit", "Segoe UI", system-ui, sans-serif);
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.12s, filter 0.12s;
+}
+#submit-btn:hover:not(:disabled) { transform: translateY(-2px); filter: brightness(1.1); }
+#submit-btn:disabled { opacity: 0.5; cursor: default; }
+
+#submit-status {
+  margin-top: 0.8em;
+  min-height: 1.2em;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  color: var(--gold);
+}
+
+#mute-btn {
+  position: absolute;
+  top: calc(2.4vh + env(safe-area-inset-top, 0px));
+  right: calc(2.4vw + env(safe-area-inset-right, 0px));
+  pointer-events: auto;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: var(--panel);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--ink);
+  font-size: 1.15rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: transform 0.12s, filter 0.12s;
+}
+#mute-btn:hover { transform: scale(1.08); filter: brightness(1.15); }
+
+#credit {
+  position: absolute;
+  bottom: 2vh;
+  width: 100%;
+  font-size: 0.72rem;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  opacity: 0.55;
+}
+#credit strong { font-weight: 700; color: var(--accent2); }
+#credit a { color: inherit; pointer-events: auto; }
+
+@media (max-height: 640px) {
+  #menu, #gameover { transform: translate(-50%, -50%); }
+  .kicker { font-size: 0.7rem; letter-spacing: 0.35em; }
+  .title { margin: 0.1em 0 0.05em calc(50% - 50vw); }
+  .tagline { font-size: 0.85rem; letter-spacing: 0.22em; }
+  .chip { margin-top: 1em; padding: 0.4em 1.15em; font-size: 0.75rem; }
+  .instructions { margin-top: 0.8em; font-size: 0.85rem; }
+  .lb { margin-top: 0.8em; padding: 0.6em 0.8em 0.75em; }
+  .lb-title { margin-bottom: 0.4em; font-size: 0.6rem; }
+  .lb-list { max-height: 108px; gap: 0.22em; }
+  .lb-list li { font-size: 0.78rem; }
+  .panel { margin-top: 0.8em; border-radius: 16px; }
+  .stat { padding: 0.8em 0.5em 0.7em; }
+  .stat-label { font-size: 0.65rem; }
+  .stat-value { font-size: 1.6rem; }
+  #submit-row { margin-top: 0.8em; }
+  #pilot-name, #submit-btn { padding: 0.45em 0.9em; font-size: 0.85rem; }
+  #submit-status { margin-top: 0.4em; font-size: 0.75rem; }
+  .newbest { margin-top: 0.8em; font-size: 0.75rem; }
+}

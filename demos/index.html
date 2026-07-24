@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Live demos — agentic-awesome-kits</title>
+  <meta name="description" content="Playable demos shipped with agentic-awesome-kits — not screen recordings." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    :root { --bg:#0c0f14; --text:#e8ecf1; --muted:#93a0b0; --accent:#3dbdb5; --card:#171c24; --line:rgba(232,236,241,.1); }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:"Instrument Sans",system-ui,sans-serif; background:var(--bg); color:var(--text); padding:2.5rem 1.25rem 3rem; }
+    .wrap { max-width:52rem; margin:0 auto; }
+    a { color: var(--accent); }
+    h1 { font-size: clamp(1.6rem, 4vw, 2.2rem); letter-spacing:-0.02em; margin:0 0 .4rem; }
+    .lead { color:var(--muted); line-height:1.55; margin:0 0 1.5rem; }
+    .card {
+      display:block; text-decoration:none; color:inherit;
+      background:var(--card); border:1px solid var(--line); border-radius:14px;
+      padding:1.25rem 1.35rem; margin-bottom:1rem;
+      transition: border-color .15s, transform .15s;
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .card h2 { margin:0 0 .35rem; font-size:1.15rem; }
+    .card p { margin:0; color:var(--muted); font-size:.92rem; line-height:1.45; }
+    .tag { display:inline-block; margin-top:.75rem; font-family:"IBM Plex Mono",monospace; font-size:.72rem; color:var(--accent); }
+    footer { margin-top:2rem; font-size:.8rem; color:var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <p style="font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);font-weight:600;">agentic-awesome-kits</p>
+    <h1>Live demos</h1>
+    <p class="lead">These run in the browser — real engines, not recorded video. Skills live under <code>kits/</code>; install with <code>npx agentic-awesome-kits</code>.</p>
+
+    <a class="card" href="./runner-kit-3d/">
+      <h2>Runner Kit 3D</h2>
+      <p>Endless-runner engine (Three.js). Five control demos: ski, moto, side-jump, flappy wing, street loop.</p>
+      <span class="tag">demos/runner-kit-3d → play</span>
+    </a>
+
+    <a class="card" href="../">
+      <h2>← Back to catalog</h2>
+      <p>Browse all DevOps + software skill kits.</p>
+      <span class="tag">index.html</span>
+    </a>
+
+    <footer>Skills are not executed here — demos prove the runner engine. Skill install is local file copy only.</footer>
+  </div>
+</body>
+</html>
