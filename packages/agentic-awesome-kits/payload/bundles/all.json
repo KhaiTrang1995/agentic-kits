@@ -9,6 +9,7 @@
     "grafana-kit",
     "k8s-kit",
     "zabbix-kit",
-    "drawio-kit"
+    "drawio-kit",
+    "runner-kit-3d"
   ]
 }

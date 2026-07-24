@@ -58,15 +58,17 @@ exclude:
   - "**/GRAFANA-BRAIN.md"
   - "**/ZABBIX-BRAIN.md"
   - "**/DRAWIO-BRAIN.md"
+  - "**/RUNNER-BRAIN.md"
   - "kits/software/**/scripts/**"
   - "kits/software/**/data/**"
   - "kits/software/**/styles/**"
   - "kits/software/**/LICENSE-drawio-skill"
 
-# Keep these in the published site
+# Keep these in the published site (demos/ is not excluded — live engine pages)
 include:
   - index.html
   - kits
+  - demos
 
 # Plugins allowed on GitHub Pages
 plugins:

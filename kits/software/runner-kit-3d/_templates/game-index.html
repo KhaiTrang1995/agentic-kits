@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>{{TITLE}} — Runner Kit 3D</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@700;800&family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../../kit/fonts.css" />
+  <link rel="stylesheet" href="../../kit/style.css" />
+  <style>
+    :root {
+      --ink: #f6f2ff;
+      --accent: {{ACCENT}};
+      --accent2: {{ACCENT2}};
+      --gold: #ffd27f;
+      --bg: {{BG}};
+      --panel: rgba(16, 12, 32, 0.5);
+      --shadow: rgba(8, 4, 20, 0.6);
+    }
+  </style>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.165.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.165.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="game"></canvas>
+  <div id="vignette"></div>
+  <div id="flash"></div>
+  <div id="hud">
+    <button id="mute-btn" type="button" aria-label="toggle sound">🔊</button>
+    <div id="score" class="hidden">0</div>
+    <div id="menu">
+      <p class="kicker">{{KICKER}}</p>
+      <h1 class="title">{{TITLE_HTML}}</h1>
+      <p class="tagline">{{TAGLINE}}</p>
+      <div class="chip">BEST &nbsp;<strong id="menu-best">0</strong></div>
+      <div class="lb">
+        <p class="lb-title">🏆 top pilots</p>
+        <ol class="lb-list" id="menu-lb-list"><li class="lb-empty">loading…</li></ol>
+      </div>
+      <p class="instructions">{{INSTRUCTIONS}}</p>
+      <p class="hint">{{HINT}}</p>
+    </div>
+    <div id="gameover" class="hidden">
+      <p class="kicker">run over</p>
+      <div class="panel">
+        <div class="stat"><span class="stat-label">SCORE</span><span class="stat-value" id="final-score">0</span></div>
+        <div class="stat"><span class="stat-label">BEST</span><span class="stat-value gold" id="final-best">0</span></div>
+      </div>
+      <div id="submit-row" class="hidden">
+        <input id="pilot-name" maxlength="16" placeholder="pilot name" autocomplete="off" spellcheck="false" />
+        <button id="submit-btn" type="button">submit</button>
+      </div>
+      <p id="submit-status"></p>
+      <div class="lb">
+        <p class="lb-title">🏆 top pilots</p>
+        <ol class="lb-list" id="over-lb-list"><li class="lb-empty">loading…</li></ol>
+      </div>
+      <p class="instructions"><span class="key">space</span> to retry</p>
+      <p class="newbest hidden" id="newbest">★ new best ★</p>
+    </div>
+    <p id="credit">demo of <strong>RUNNER KIT 3D</strong></p>
+  </div>
+  <script type="module" src="game.js"></script>
+</body>
+</html>

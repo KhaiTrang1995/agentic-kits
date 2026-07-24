@@ -3,6 +3,7 @@
   "name": "software",
   "description": "All kits under kits/software/",
   "kits": [
-    "drawio-kit"
+    "drawio-kit",
+    "runner-kit-3d"
   ]
 }
